@@ -1,3 +1,4 @@
+using FluentValidation;
 using RegisterApplication = Application.DependencyResolver.DependencyInjectionResolver;
 using RegisterInfrastructure = Infrastructure.DependencyResolver.DependencyInjectionResolver;
 
@@ -11,6 +12,7 @@ builder.Services.AddSwaggerGen();
 RegisterApplication.RegisterApplicationLayer(builder.Services);
 RegisterInfrastructure.RegisterInfrastructure(builder.Services);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
