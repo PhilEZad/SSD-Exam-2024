@@ -1,5 +1,5 @@
 ﻿services:
-  api:
+  backend:
     image: api
     build:
       context: ./WriteOn
