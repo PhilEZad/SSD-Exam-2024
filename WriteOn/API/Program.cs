@@ -1,6 +1,7 @@
 using FluentValidation;
 using RegisterApplication = Application.DependencyResolver.DependencyInjectionResolver;
 using RegisterInfrastructure = Infrastructure.DependencyResolver.DependencyInjectionResolver;
+using RegisterSecurity = Security.DependencyResolver.DependencyInjectionResolver;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+RegisterSecurity.RegisterSecurity(builder.Services);
 RegisterApplication.RegisterApplicationLayer(builder.Services);
 RegisterInfrastructure.RegisterInfrastructure(builder.Services);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
