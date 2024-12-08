@@ -1,6 +1,6 @@
 ﻿services:
   backend:
-    image: api
+    image: backend
     build:
       context: ./WriteOn
       dockerfile: API/Dockerfile
