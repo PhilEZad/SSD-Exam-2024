@@ -10,6 +10,7 @@ builder.Services.AddSwaggerGen();
 
 RegisterApplication.RegisterApplicationLayer(builder.Services);
 RegisterInfrastructure.RegisterInfrastructure(builder.Services);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
