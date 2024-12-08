@@ -4,3 +4,5 @@
     build:
       context: ./WriteOn
       dockerfile: API/Dockerfile
+    ports:
+     - "5000:8080"

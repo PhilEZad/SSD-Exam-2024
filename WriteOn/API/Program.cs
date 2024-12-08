@@ -10,12 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Registers
+builder.Services.AddControllers();
 RegisterSecurity.RegisterSecurity(builder.Services);
 RegisterApplication.RegisterApplicationLayer(builder.Services);
 RegisterInfrastructure.RegisterInfrastructure(builder.Services);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,6 +26,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Middleware
 app.UseHttpsRedirection();
+
+app.MapControllers();
 
 app.Run();
