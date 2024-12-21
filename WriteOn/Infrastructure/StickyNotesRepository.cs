@@ -1,5 +1,5 @@
-﻿using Domain;
-using Infrastructure.Interface;
+﻿using Application.Interfaces;
+using Domain;
 
 namespace Infrastructure;
 

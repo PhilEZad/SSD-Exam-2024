@@ -1,6 +1,6 @@
 ﻿using Domain;
 
-namespace Infrastructure.Interface;
+namespace Application.Interfaces;
 
 public interface IStickyNotesRepository
 {

@@ -6,7 +6,6 @@ using Application.Validator;
 using AutoMapper;
 using Domain;
 using FluentValidation;
-using Infrastructure.Interface;
 
 namespace Application;
 
@@ -33,13 +32,17 @@ public class StickyNoteService : IStickyNoteService
             throw new ValidationException(validationResult.ToString());
         }
         
-        var returnCreate = _stickyNotesRepository.Add(create);
-        return _mapper.Map<StickyNote, StickyNoteResponse>(returnCreate);
+        return _mapper.Map<StickyNote, StickyNoteResponse>(_stickyNotesRepository.Add(create));
     }
 
     public StickyNoteResponse ReadById(int id)
     {
-        throw new NotImplementedException();
+        if (id <= 0)
+        {
+            throw new ArgumentOutOfRangeException("Id must be greater than 0");
+        }
+
+        return _mapper.Map<StickyNote, StickyNoteResponse>(_stickyNotesRepository.Get(id));
     }
 
     public StickyNoteResponse Update(StickyNoteUpdate update)

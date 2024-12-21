@@ -1,4 +1,4 @@
-﻿using Infrastructure.Interface;
+﻿using Application.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.DependencyResolver;
