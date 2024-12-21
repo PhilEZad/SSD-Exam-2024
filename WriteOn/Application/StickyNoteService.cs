@@ -62,6 +62,7 @@ public class StickyNoteService : IStickyNoteService
         {
             throw new ArgumentOutOfRangeException("Id must be greater than 0");
         }
+        
         return _stickyNotesRepository.Delete(id);
     }
 }
