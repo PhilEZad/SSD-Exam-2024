@@ -25,7 +25,6 @@ public class StickyNoteService : IStickyNoteService
         StickyNote create = _mapper.Map<StickyNoteCreate, StickyNote>(createDto);
         
         var validationResult = _validator.Validate(create);
-
         if (!validationResult.IsValid)
         {
             throw new ValidationException(validationResult.Errors);
