@@ -1,8 +1,7 @@
-﻿namespace Domain;
+﻿namespace Application.DTOs.Request;
 
-public class User
+public class LoginDto
 {
-    public required int Id { get; set; }
     public required string Username { get; set; }
     public required string PlainPassword { get; set; }
 }
