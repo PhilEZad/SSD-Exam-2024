@@ -1,28 +1,35 @@
-### STAGE 1:BUILD ###
-# Defining a node image to be used as giving it an alias of "build"
-# Which version of Node image to use depends on project dependencies
-# This is needed to build and compile our code
-# while generating the docker image
+# Stage 1: Build Angular Application
 FROM node:alpine AS build
-# Create a Virtual directory inside the docker image
-WORKDIR /dist/src/app
-# Copy files to virtual directory
-# COPY package.json package-lock.json ./
-# Run command in Virtual directory
-RUN npm cache clean --force
-# Copy files from local machine to virtual directory in docker image
-COPY . .
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json to install dependencies
+COPY package.json package-lock.json ./
+
+# Install project dependencies
 RUN npm install
+
+# Copy all Angular application files
+COPY . .
+
+# Build the Angular application for production
 RUN npm run build --prod
 
+# Stage 2: Run Angular Application
+FROM node:alpine AS run
 
-### STAGE 2:RUN ###
-# Defining nginx image to be used
-FROM nginx:latest AS ngi
-# Copying compiled code and nginx config to different folder
-# NOTE: This path may change according to your project's output folder
-COPY --from=build /dist/src/app/dist/password-manager /usr/share/nginx/html
-COPY /nginx.conf  /etc/nginx/conf.d/default.conf
-# Exposing a port, here it means that inside the container
-# the app will be using Port 80 while running
-EXPOSE 80
+# Set working directory for serving the app
+WORKDIR /app
+
+# Install a simple HTTP server globally
+RUN npm install -g http-server
+
+# Copy the built Angular app from the build stage
+COPY --from=build /app/dist /app/dist
+
+# Expose the application on port 8080
+EXPOSE 8080
+
+# Serve the Angular app using HTTP server
+CMD ["http-server", "/app/dist", "-p", "8080"]
