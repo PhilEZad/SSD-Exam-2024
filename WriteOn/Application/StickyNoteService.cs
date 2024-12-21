@@ -2,7 +2,6 @@
 using Application.DTOs.Response;
 using Application.DTOs.Update;
 using Application.Interfaces;
-using Application.Validator;
 using AutoMapper;
 using Domain;
 using FluentValidation;
@@ -57,8 +56,12 @@ public class StickyNoteService : IStickyNoteService
         return _mapper.Map<StickyNote, StickyNoteResponse>(_mapper.Map<StickyNote, StickyNote>(update));
     }
 
-    public StickyNoteResponse Delete(int id)
+    public bool Delete(int id)
     {
-        throw new NotImplementedException();
+        if (id <= 0)
+        {
+            throw new ArgumentOutOfRangeException("Id must be greater than 0");
+        }
+        return _stickyNotesRepository.Delete(id);
     }
 }

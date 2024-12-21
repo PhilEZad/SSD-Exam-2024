@@ -9,5 +9,5 @@ public interface IStickyNoteService
     public StickyNoteResponse Create(StickyNoteCreate createDto);
     public StickyNoteResponse ReadById(int id);
     public StickyNoteResponse Update(StickyNoteUpdate updateDto);
-    public StickyNoteResponse Delete(int id);
+    public bool Delete(int id);
 }
