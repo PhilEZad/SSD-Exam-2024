@@ -45,9 +45,16 @@ public class StickyNoteService : IStickyNoteService
         return _mapper.Map<StickyNote, StickyNoteResponse>(_stickyNotesRepository.Get(id));
     }
 
-    public StickyNoteResponse Update(StickyNoteUpdate update)
+    public StickyNoteResponse Update(StickyNoteUpdate updateDto)
     {
-        throw new NotImplementedException();
+        StickyNote update = _mapper.Map<StickyNoteUpdate, StickyNote>(updateDto);
+        
+        var validationResult = _validator.Validate(update);
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException(validationResult.ToString());
+        }
+        return _mapper.Map<StickyNote, StickyNoteResponse>(_mapper.Map<StickyNote, StickyNote>(update));
     }
 
     public StickyNoteResponse Delete(int id)

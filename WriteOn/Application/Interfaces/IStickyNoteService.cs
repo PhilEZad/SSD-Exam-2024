@@ -8,6 +8,6 @@ public interface IStickyNoteService
 {
     public StickyNoteResponse Create(StickyNoteCreate createDto);
     public StickyNoteResponse ReadById(int id);
-    public StickyNoteResponse Update(StickyNoteUpdate update);
+    public StickyNoteResponse Update(StickyNoteUpdate updateDto);
     public StickyNoteResponse Delete(int id);
 }
