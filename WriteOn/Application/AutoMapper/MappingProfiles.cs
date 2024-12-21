@@ -1,4 +1,5 @@
 ﻿using Application.DTOs.Create;
+using Application.DTOs.Request;
 using Application.DTOs.Response;
 using Application.DTOs.Update;
 using AutoMapper;
@@ -14,5 +15,10 @@ public class MappingProfiles : Profile
         CreateMap<NoteUpdate, Note>();
         
         CreateMap<Note, NoteResponse>();
+        
+        CreateMap<LoginDto, User>();
+        CreateMap<User, LoginResponse>();
+
+        CreateMap<RegisterDto, User>();
     }
 }
