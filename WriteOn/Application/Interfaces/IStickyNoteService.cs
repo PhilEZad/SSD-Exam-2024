@@ -6,7 +6,7 @@ namespace Application.Interfaces;
 
 public interface IStickyNoteService
 {
-    public StickyNoteResponse Create(StickyNoteCreate create);
+    public StickyNoteResponse Create(StickyNoteCreate createDto);
     public StickyNoteResponse ReadById(int id);
     public StickyNoteResponse Update(StickyNoteUpdate update);
     public StickyNoteResponse Delete(int id);

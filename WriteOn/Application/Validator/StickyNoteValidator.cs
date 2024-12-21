@@ -5,8 +5,6 @@ namespace Application.Validator;
 
 public class StickyNoteValidator : AbstractValidator<StickyNote>
 {
-    
-    
     public StickyNoteValidator()
     {
         CascadeMode = CascadeMode.Stop;
