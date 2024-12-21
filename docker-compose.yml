@@ -2,7 +2,7 @@
   backend:
     image: backend
     build:
-      context: ./WriteOn
+      context: ./Backend
       dockerfile: /API/Dockerfile
     ports:
       - "5000:8080"
@@ -23,6 +23,7 @@
       - ./vault/data:/vault/data
       - ./vault:/vault/config
     command: [ "server"]
+    
     
   frontend:
     container_name: frontend
