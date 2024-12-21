@@ -27,7 +27,7 @@ public class StickyNoteService : IStickyNoteService
         var validationResult = _validator.Validate(create);
         if (!validationResult.IsValid)
         {
-            throw new ValidationException(validationResult.Errors);
+            throw new ValidationException(validationResult.ToString());
         }
         
         throw new NotImplementedException();
