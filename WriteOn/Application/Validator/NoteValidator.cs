@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace Application.Validator;
 
-public class StickyNoteValidator : AbstractValidator<Note>
+public class NoteValidator : AbstractValidator<Note>
 {
-    public StickyNoteValidator()
+    public NoteValidator()
     {
         CascadeMode = CascadeMode.Stop;
         
