@@ -23,3 +23,13 @@
       - ./vault/data:/vault/data
       - ./vault:/vault/config
     command: [ "server"]
+    
+  frontend:
+    container_name: frontend
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    ports:
+      - "8000:80"
