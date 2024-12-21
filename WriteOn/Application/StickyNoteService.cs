@@ -6,6 +6,7 @@ using Application.Validator;
 using AutoMapper;
 using Domain;
 using FluentValidation;
+using Infrastructure.Interface;
 
 namespace Application;
 
@@ -13,11 +14,13 @@ public class StickyNoteService : IStickyNoteService
 {
     private readonly IMapper _mapper;
     private readonly IValidator<StickyNote> _validator;
+    private readonly IStickyNotesRepository _stickyNotesRepository;
     
-    public StickyNoteService(IMapper mapper, IValidator<StickyNote> validator)
+    public StickyNoteService(IMapper mapper, IValidator<StickyNote> validator, IStickyNotesRepository stickyNotesRepository)
     {
         _mapper = mapper;
         _validator = validator;
+        _stickyNotesRepository = stickyNotesRepository;
     }
     
     public StickyNoteResponse Create(StickyNoteCreate createDto)
@@ -30,7 +33,8 @@ public class StickyNoteService : IStickyNoteService
             throw new ValidationException(validationResult.ToString());
         }
         
-        throw new NotImplementedException();
+        var returnCreate = _stickyNotesRepository.Add(create);
+        return _mapper.Map<StickyNote, StickyNoteResponse>(returnCreate);
     }
 
     public StickyNoteResponse ReadById(int id)
