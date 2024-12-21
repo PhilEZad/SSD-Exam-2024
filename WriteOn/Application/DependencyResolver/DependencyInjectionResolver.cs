@@ -7,6 +7,6 @@ public static class DependencyInjectionResolver
 {
     public static void RegisterApplicationLayer(IServiceCollection serviceCollection)
     {
-        serviceCollection.AddScoped<IStickyNoteService, StickyNoteService>();
+        serviceCollection.AddScoped<INoteService, NoteService>();
     }
 }

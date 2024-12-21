@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Application.Validator;
 
-public class StickyNoteValidator : AbstractValidator<StickyNote>
+public class StickyNoteValidator : AbstractValidator<Note>
 {
     public StickyNoteValidator()
     {

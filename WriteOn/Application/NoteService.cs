@@ -8,22 +8,22 @@ using FluentValidation;
 
 namespace Application;
 
-public class StickyNoteService : IStickyNoteService
+public class NoteService : INoteService
 {
     private readonly IMapper _mapper;
-    private readonly IValidator<StickyNote> _validator;
-    private readonly IStickyNotesRepository _stickyNotesRepository;
+    private readonly IValidator<Note> _validator;
+    private readonly INoteRepository _noteRepository;
     
-    public StickyNoteService(IMapper mapper, IValidator<StickyNote> validator, IStickyNotesRepository stickyNotesRepository)
+    public NoteService(IMapper mapper, IValidator<Note> validator, INoteRepository noteRepository)
     {
         _mapper = mapper;
         _validator = validator;
-        _stickyNotesRepository = stickyNotesRepository;
+        _noteRepository = noteRepository;
     }
     
-    public StickyNoteResponse Create(StickyNoteCreate createDto)
+    public NoteResponse Create(NoteCreate createDto)
     {
-        StickyNote create = _mapper.Map<StickyNoteCreate, StickyNote>(createDto);
+        Note create = _mapper.Map<NoteCreate, Note>(createDto);
         
         var validationResult = _validator.Validate(create);
         if (!validationResult.IsValid)
@@ -31,29 +31,29 @@ public class StickyNoteService : IStickyNoteService
             throw new ValidationException(validationResult.ToString());
         }
         
-        return _mapper.Map<StickyNote, StickyNoteResponse>(_stickyNotesRepository.Add(create));
+        return _mapper.Map<Note, NoteResponse>(_noteRepository.Add(create));
     }
 
-    public StickyNoteResponse ReadById(int id)
+    public NoteResponse ReadById(int id)
     {
         if (id <= 0)
         {
             throw new ArgumentOutOfRangeException("Id must be greater than 0");
         }
 
-        return _mapper.Map<StickyNote, StickyNoteResponse>(_stickyNotesRepository.Get(id));
+        return _mapper.Map<Note, NoteResponse>(_noteRepository.Get(id));
     }
 
-    public StickyNoteResponse Update(StickyNoteUpdate updateDto)
+    public NoteResponse Update(NoteUpdate updateDto)
     {
-        StickyNote update = _mapper.Map<StickyNoteUpdate, StickyNote>(updateDto);
+        Note update = _mapper.Map<NoteUpdate, Note>(updateDto);
         
         var validationResult = _validator.Validate(update);
         if (!validationResult.IsValid)
         {
             throw new ValidationException(validationResult.ToString());
         }
-        return _mapper.Map<StickyNote, StickyNoteResponse>(_mapper.Map<StickyNote, StickyNote>(update));
+        return _mapper.Map<Note, NoteResponse>(_mapper.Map<Note, Note>(update));
     }
 
     public bool Delete(int id)
@@ -63,6 +63,6 @@ public class StickyNoteService : IStickyNoteService
             throw new ArgumentOutOfRangeException("Id must be greater than 0");
         }
         
-        return _stickyNotesRepository.Delete(id);
+        return _noteRepository.Delete(id);
     }
 }

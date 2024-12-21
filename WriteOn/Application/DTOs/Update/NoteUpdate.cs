@@ -1,6 +1,6 @@
 ﻿namespace Application.DTOs.Update;
 
-public class StickyNoteUpdate
+public class NoteUpdate
 {
     public required int Id { get; set; }
     public required string Title { get; set; }

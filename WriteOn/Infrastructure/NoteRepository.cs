@@ -3,24 +3,24 @@ using Domain;
 
 namespace Infrastructure;
 
-public class StickyNotesRepository : IStickyNotesRepository
+public class NoteRepository : INoteRepository
 {
-    public StickyNote Add(StickyNote add)
+    public Note Add(Note add)
     {
         throw new NotImplementedException();
     }
 
-    public StickyNote Update(StickyNote update)
+    public Note Update(Note update)
     {
         throw new NotImplementedException();
     }
 
-    public StickyNote Get(int id)
+    public Note Get(int id)
     {
         throw new NotImplementedException();
     }
 
-    public IList<StickyNote> GetAll()
+    public IList<Note> GetAll()
     {
         throw new NotImplementedException();
     }

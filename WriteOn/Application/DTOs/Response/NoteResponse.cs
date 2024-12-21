@@ -1,6 +1,6 @@
 ﻿namespace Application.DTOs.Response;
 
-public class StickyNoteResponse
+public class NoteResponse
 {
     public required int Id { get; set; }
     public required string Title { get; set; }

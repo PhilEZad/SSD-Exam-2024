@@ -7,6 +7,6 @@ public static class DependencyInjectionResolver
 {
     public static void RegisterInfrastructure(this IServiceCollection services)
     {
-        services.AddScoped<IStickyNotesRepository, StickyNotesRepository>();
+        services.AddScoped<INoteRepository, NoteRepository>();
     }
 }

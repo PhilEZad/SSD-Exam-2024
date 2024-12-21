@@ -10,9 +10,9 @@ public class MappingProfiles : Profile
 {
     public MappingProfiles()
     {
-        CreateMap<StickyNoteCreate, StickyNote>();
-        CreateMap<StickyNoteUpdate, StickyNote>();
+        CreateMap<NoteCreate, Note>();
+        CreateMap<NoteUpdate, Note>();
         
-        CreateMap<StickyNote, StickyNoteResponse>();
+        CreateMap<Note, NoteResponse>();
     }
 }

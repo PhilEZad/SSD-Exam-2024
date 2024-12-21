@@ -1,6 +1,6 @@
 ﻿namespace Application.DTOs.Request;
 
-public class StickyNoteRequest
+public class NoteRequest
 {
     public required int Id { get; set; }
 }
