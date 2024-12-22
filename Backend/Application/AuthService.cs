@@ -1,4 +1,5 @@
-﻿using Application.DTOs.Create;
+﻿using System.Security.Authentication;
+using Application.DTOs.Create;
 using Application.DTOs.Request;
 using Application.DTOs.Response;
 using Application.Interfaces;
@@ -29,15 +30,38 @@ public class AuthService : IAuthService
     {
         var register = _mapper.Map<RegisterDto, User>(registerDto);
         
+        var validationResult = _validator.Validate(register);
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException(validationResult.ToString());
+        }
+        
         register.PlainPassword = _passwordHasher.Hash(register.PlainPassword, register.Username);
         
-        throw new NotImplementedException();
+        return _authRepository.Create(register);
     }
 
     public LoginResponse Login(LoginDto loginDto)
     {
         var login = _mapper.Map<LoginDto, User>(loginDto);
+     
+        var validationResult = _validator.Validate(login);
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException(validationResult.ToString());
+        }
         
-        throw new NotImplementedException();
+        var responseDb = _authRepository.Read(login);
+        var hashedPassword = _passwordHasher.Hash(login.PlainPassword, login.Username);
+
+        if (responseDb.PlainPassword != hashedPassword)
+        {
+            throw new AuthenticationException("Incorrect password");
+        }
+
+        return new LoginResponse()
+        {
+            Jwt = _jwtProvider.GenerateToken(responseDb.Id, responseDb.Username)
+        };
     }
 }
