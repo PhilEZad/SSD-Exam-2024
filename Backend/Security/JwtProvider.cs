@@ -9,7 +9,7 @@ namespace Security;
 
 public class JwtProvider : IJwtProvider
 {
-        private readonly string _secret;
+    private readonly string _secret;
     private readonly string _issuer;
     private readonly string _audience;
     
@@ -33,7 +33,6 @@ public class JwtProvider : IJwtProvider
         {
             // Add additional claims if needed
             new Claim(ClaimTypes.NameIdentifier, id.ToString()),
-            new Claim(ClaimTypes.Name, username),
         };
 
         // Add additional claims if provided
