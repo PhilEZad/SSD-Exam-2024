@@ -5,6 +5,13 @@ namespace Infrastructure;
 
 public class NoteRepository : INoteRepository
 {
+    private readonly DatabaseContext _DbContext;
+
+    public NoteRepository(DatabaseContext dbContext)
+    {
+        _DbContext = dbContext;
+        _DbContext.Database.EnsureCreated();
+    }
     public Note Add(Note add)
     {
         throw new NotImplementedException();
