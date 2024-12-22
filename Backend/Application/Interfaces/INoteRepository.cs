@@ -4,9 +4,9 @@ namespace Application.Interfaces;
 
 public interface INoteRepository
 {
-    public Note Add(Note add);
+    public Note Create(Note add);
     public Note Update(Note update);
-    public Note Get(int id);
-    public IList<Note> GetAll();
+    public Note Read(int id);
+    public IList<Note> ReadAll();
     public bool Delete(int id);
 }

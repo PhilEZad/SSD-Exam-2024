@@ -31,7 +31,7 @@ public class NoteService : INoteService
             throw new ValidationException(validationResult.ToString());
         }
         
-        return _mapper.Map<Note, NoteResponse>(_noteRepository.Add(create));
+        return _mapper.Map<Note, NoteResponse>(_noteRepository.Create(create));
     }
 
     public NoteResponse ReadById(int id)
@@ -41,7 +41,7 @@ public class NoteService : INoteService
             throw new ArgumentOutOfRangeException("Id must be greater than 0");
         }
 
-        return _mapper.Map<Note, NoteResponse>(_noteRepository.Get(id));
+        return _mapper.Map<Note, NoteResponse>(_noteRepository.Read(id));
     }
 
     public NoteResponse Update(NoteUpdate updateDto)

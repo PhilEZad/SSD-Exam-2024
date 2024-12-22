@@ -12,7 +12,7 @@ public class NoteRepository : INoteRepository
         _DbContext = dbContext;
         _DbContext.Database.EnsureCreated();
     }
-    public Note Add(Note add)
+    public Note Create(Note add)
     {
         throw new NotImplementedException();
     }
@@ -22,12 +22,12 @@ public class NoteRepository : INoteRepository
         throw new NotImplementedException();
     }
 
-    public Note Get(int id)
+    public Note Read(int id)
     {
         throw new NotImplementedException();
     }
 
-    public IList<Note> GetAll()
+    public IList<Note> ReadAll()
     {
         throw new NotImplementedException();
     }
