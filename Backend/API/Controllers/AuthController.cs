@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Application.DTOs.Create;
+using Application.DTOs.Request;
+using Application.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
@@ -6,12 +9,19 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
+    private readonly IAuthService _authService;
+
+    public AuthController(IAuthService authService)
+    {
+        _authService = authService;
+    }
+    
     [HttpPost]
-    public IActionResult Register()
+    public IActionResult Register([FromBody] RegisterDto registerDto)
     {
         try
         {
-            return Ok();
+            return Ok(_authService.Register(registerDto));
         }
         catch (Exception ex)
         {
@@ -20,11 +30,11 @@ public class AuthController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult Login()
+    public IActionResult Login([FromBody] LoginDto loginDto)
     {
         try
         {
-            return Ok();
+            return Ok(_authService.Login(loginDto));
         }
         catch (Exception ex)
         {
