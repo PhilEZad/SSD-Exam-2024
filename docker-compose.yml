@@ -24,6 +24,16 @@
       - ./vault:/vault/config
     command: [ "server"]
     
+  database:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: database
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "YourStrong!Password"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - db_data:/var/opt/mssql
     
   frontend:
     container_name: frontend
@@ -34,3 +44,6 @@
       - backend
     ports:
       - "8000:80"
+  
+volumes:
+  db_data:
