@@ -1,4 +1,6 @@
 using FluentValidation;
+using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using RegisterApplication = Application.DependencyResolver.DependencyInjectionResolver;
 using RegisterInfrastructure = Infrastructure.DependencyResolver.DependencyInjectionResolver;
 using RegisterSecurity = Security.DependencyResolver.DependencyInjectionResolver;
@@ -18,6 +20,10 @@ RegisterInfrastructure.RegisterInfrastructure(builder.Services);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
+    
+// Database Connection
+builder.Services.AddDbContext<DatabaseContext>(options => 
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection")));
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
