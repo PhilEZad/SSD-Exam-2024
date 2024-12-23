@@ -1,0 +1,65 @@
+/*
+ * Application global variables.
+ */
+
+// Set Font Awesome font path
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
+
+// ---------------------------------------------------------------------------
+// Bootstrap variables
+//
+// Override Bootstrap variables here to suite your theme.
+// Copy variables you want to customize from node_modules/bootstrap/scss/_variables.scss
+
+//
+// Color system
+//
+
+$white: #fff;
+$gray-100: #f6f6f6;
+$gray-200: #f3f3f3;
+$gray-250: #f0f0f0;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #868e96;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$gray-950: #232323;
+$black: #000;
+
+$blue: #0073dd;
+$indigo: #6610f2;
+$purple: #6f42c1;
+$pink: #e83e8c;
+$red: #de4b5a;
+$orange: #fd7e14;
+$yellow: #ebbc4f;
+$green: #4ea962;
+$teal: #20c997;
+$cyan: #4fb0c0;
+
+
+$panel-color: $gray-900;
+
+$theme-colors: (
+  primary: $purple,
+  secondary: $gray-600,
+  tierary: $blue,
+  success: $green,
+  info: $cyan,
+  warning: $yellow,
+  danger: $red,
+  warning-high: $orange,
+  light: $gray-100,
+  dark: $gray-800,
+  bg-dark: $gray-950,
+  bg-light: $gray-200,
+);
+
+
+
+
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";

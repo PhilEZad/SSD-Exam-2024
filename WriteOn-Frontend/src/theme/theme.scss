@@ -1,0 +1,415 @@
+@import "theme-variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+@import "../../node_modules/bootstrap/scss/forms";
+
+/*
+ * Global application theme.
+ * Framework overrides and customization goes here.
+ */
+
+body {
+  background-color: $gray-250;
+  font-family: Helvetica, sans-serif;
+  font-size: $font-size-base;
+  color: $gray-900;
+  overflow-x: hidden;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $gray-500;
+  border-radius: 10px;
+  transition: 0.3s ease-in-out;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $gray-600;
+  border-radius: 10px;
+}
+
+
+
+.dropdown-item:active {
+  background-color: map-get($theme-colors, "secondary");
+  color: $gray-800;
+}
+
+.dropdown-item:hover {
+  background-color: map-get($theme-colors, "secondary");
+  color: $gray-800;
+}
+
+.dropdown-menu {
+  z-index: 202;
+  overflow: visible;
+  white-space: normal;
+  text-overflow: ellipsis;
+  --bs-dropdown-link-active-bg: map-get($theme-colors, "secondary");
+}
+
+.dropdown-menu .dropdown-item {
+  border-width: 1px 0;
+  text-overflow: ellipsis;
+  white-space: normal;
+  color: $gray-800;
+}
+
+.dropdown-menu .dropdown-item:hover {
+  text-overflow: ellipsis;
+  color: $gray-800;
+}
+
+.dropdown-menu .dropdown-item:active {
+  text-overflow: ellipsis;
+  color: $gray-800;
+}
+
+.btn-primary {
+  background-color: map-get($theme-colors, "primary") !important;
+  border-color: map-get($theme-colors, "primary") !important;
+}
+
+.btn-primary:hover {
+  background-color: tint-color(map-get($theme-colors, "primary"), 10%) !important;
+  border-color: tint-color(map-get($theme-colors, "primary"), 10%) !important;
+}
+
+.btn-primary:active {
+  background-color: darken(map-get($theme-colors, "primary"), 5%) !important;
+  border-color: darken(map-get($theme-colors, "primary"), 5%) !important;
+}
+
+.input-underline {
+  @extend .input-group;
+  border: none;
+  border-bottom: 3px solid $form-text-color;
+  -webkit-box-shadow: none;
+  background-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  transition: ease-in-out 0.15s;
+  outline: none;
+  position: relative;
+  width: 100%;
+}
+
+.input-underline:hover {
+  @extend .input-group;
+  border: none;
+  border-bottom: 4px solid tint-color(map-get($theme-colors, "primary"), 60%);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-radius: 0;
+  outline: none;
+}
+
+.input-underline:active {
+  @extend .input-group;
+  border: none;
+  border-bottom: 4px solid map-get($theme-colors, "primary") !important;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-radius: 0;
+  outline: none;
+}
+
+.input-underline:focus {
+  @extend .input-group;
+  border: none;
+  border-bottom: 4px solid map-get($theme-colors, "primary") !important;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-radius: 0;
+  outline: none;
+}
+
+.input-underline:disabled {
+  @extend .input-group;
+  border: none;
+  border-bottom: 2px solid $form-text-color;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-radius: 0;
+  opacity: 0.5;
+}
+
+.btn-grey {
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 1em;
+  background-color: $gray-400;
+  color: map-get($theme-colors, "gray-800");
+  transition: 0.15s ease-in-out;
+  outline: none;
+}
+
+.btn-grey:hover {
+  color: map-get($theme-colors, "gray-800");
+  background-color: tint-color($gray-400, 40%);
+  cursor: pointer;
+}
+
+.btn-grey:active {
+  background-color: $gray-500;
+  color: map-get($theme-colors, "gray-800");
+}
+
+.btn-text {
+  border: none;
+  border-radius: 5px;
+  font-weight: normal;
+  font-size: 1em;
+  background-color: transparent;
+  color: map-get($theme-colors, "gray-800");
+  transition: 0.15s ease-in-out;
+  outline: none;
+}
+
+.btn-text:hover {
+  color: map-get($theme-colors, "primary");
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.btn-text:active {
+  background-color: transparent;
+  color: map-get($theme-colors, "secondary");
+}
+
+
+@mixin switch($res: "sm") {
+  $index: 1rem;
+  $mainVal: 1rem;
+
+  @if $res == "md" {
+    $index: 2rem;
+    $mainVal: 1.5rem;
+  } @else if $res == "lg" {
+    $index: 3rem;
+    $mainVal: 2rem;
+  } @else if $res == "xl" {
+    $index: 4rem;
+    $mainVal: 2.5rem;
+  }
+
+  margin-bottom: calc($index / 2); /* JUST FOR STYLING PURPOSE */
+
+  .form-check-input {
+    height: $mainVal;
+    width: calc(#{$index} + 0.75rem);
+    border-radius: $mainVal * 2;
+  }
+}
+
+.form-check-input {
+  clear: left;
+}
+
+.form-check-input:checked {
+  background-color: map-get($theme-colors, "primary");
+  border-color: map-get($theme-colors, "primary");
+}
+
+.btn-check .btn-primary {
+  background-color: transparent !important;
+}
+
+.btn-check:checked .btn-primary {
+  color: #fff;
+  background-color: map-get($theme-colors, "primary");
+  border-color: map-get($theme-colors, "primary");
+}
+
+// YOU CAN PUT ALL RESOLUTION HERE
+// sm - DEFAULT, md, lg, xl
+
+.form-switch.form-switch-sm {
+  @include switch();
+}
+
+.form-switch.form-switch-md {
+  @include switch("md");
+}
+
+.form-switch.form-switch-lg {
+  @include switch("lg");
+}
+
+.form-switch.form-switch-xl {
+  @include switch("xl");
+}
+
+
+.btn-transparent {
+  background-color: transparent !important;
+  border: none !important;
+  color: #dcdcdc !important;
+}
+
+.btn-transparent:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #dcdcdc !important;
+}
+
+.btn-transparent:active {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: #dcdcdc !important;
+}
+
+.hover-tint:hover {
+  // Box shadow
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.35) !important;
+}
+
+
+@media (max-width: 300px) {
+  .nav-tabs {
+    flex-direction: column; /* Stack tabs */
+  }
+  .nav-tabs .nav-link {
+    text-align: center; /* Center-align text */
+  }
+}
+
+
+.tab-content.scrollable-content {
+  max-height: 100%; /* Adjust height */
+  overflow-y: auto; /* Vertical scrolling */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+.tab-pane {
+  animation: fadeIn 0.3s ease; /* Optional: Add a fade-in animation for tab switching */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.nav {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.nav-tabs-outline {
+  border-bottom: 2px solid transparent; /* Optional: Customize separator line */
+}
+
+.nav-tabs-outline .nav-link {
+  border-radius: 5px 5px 0 0 !important; /* Remove rounded corners */
+  color: rgba(255, 255, 255, 0.7); /* Default tab color */
+  padding: 0.25rem 0.75rem !important; /* Adjust padding */
+  margin-right: 0.5rem;
+  font-weight: 500; /* Medium font weight */
+  text-transform: capitalize; /* Optional: capitalize tab text */
+  border: 2px solid transparent !important; /* Active tab border */
+  transition: 0.3s ease; /* Smooth hover effect */
+}
+
+// Remove margin on last tab
+.nav-tabs-outline .nav-item:last-child .nav-link {
+  margin-right: 0;
+}
+
+.nav-tabs-outline .nav-link:hover {
+  color: map-get($theme-colors, "primary"); /* Hover text color */
+  border-color: map-get($theme-colors, "primary"); /* Hover bottom border color */
+  background-color: transparent;
+}
+
+.nav-tabs-outline .nav-link.active {
+  color: rgba(255, 255, 255, 0.9) !important; /* Active tab text color */
+  background-color: map-get($theme-colors, 'bg-dark') !important; //darken(map-get($theme-colors, 'primary'), 0.2) !important; /* Background color for active tab */
+  border: 2px solid rgba(255, 255, 255, 0.8) !important; /* Active tab border */
+  border-bottom: 2px solid transparent !important; /* Remove bottom border */
+}
+
+
+.nav-tabs-button {
+  display: flex;
+  gap: 0.5rem; /* Space between buttons */
+}
+
+.nav-tabs-button .nav-link {
+  border-radius: 50px !important; /* Pill-shaped buttons */
+  color: rgba(255, 255, 255, 0.7) !important; /* Default text color */
+  padding: 0.375rem 1rem !important; /* Adjust padding for pill shape */
+  font-weight: 500; /* Medium font weight */
+  text-transform: capitalize; /* Optional: capitalize text */
+  border: 2px solid rgba(255, 255, 255, 0.8) !important; /* White border for inactive state */
+  transition: 0.3s ease; /* Smooth hover effect */
+  display: inline-block; /* Ensure buttons behave as inline elements */
+  background-color: transparent; /* Transparent background for inactive state */
+}
+
+.nav-tabs-button .nav-link:hover {
+  color: map-get($theme-colors, "primary") !important; /* Hover text color */
+  background-color: rgba(0, 0, 0, 0.1) !important; /* Subtle background on hover */
+  border-color: map-get($theme-colors, "primary") !important; /* Border color on hover */
+}
+
+.nav-tabs-button .nav-link.active {
+  color: rgba(255, 255, 255, 0.9) !important; /* Active button text color */
+  background-color: map-get($theme-colors, "primary") !important; /* Active button background */
+  border: 2px solid map-get($theme-colors, "primary") !important; /* Active button border */
+}
+
+.nav-tabs-button .nav-item {
+  margin: 0; /* Remove margin between items */
+}
+//Lighten primary outline button
+.btn-outline-primary {
+  color: lighten(map-get($theme-colors, "primary"), 10%) !important;
+  border-color: lighten(map-get($theme-colors, "primary"), 10%) !important;
+}
+
+.btn-outline-primary:hover {
+  color: lighten(map-get($theme-colors, "primary"), 12%) !important;
+  border-color: lighten(map-get($theme-colors, "primary"), 12%) !important;
+}
+
+.btn-outline-primary:active {
+  color: darken(map-get($theme-colors, "bg-light"), 0.2) !important;
+  border-color: darken(map-get($theme-colors, "primary"), 0.5) !important;
+}
+
+.btn-check:checked + .btn, :not(.btn-check) + .btn:active, .btn:first-child:active, .btn.active, .btn.show {
+  background-color: var(--bs-btn-active-bg);
+  color: darken(map-get($theme-colors, "light"), 0.2) !important;
+  border-color: darken(map-get($theme-colors, "primary"), 0.5) !important;
+}
+
+
+
+.modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  color: map-get($theme-colors, "light") !important;
+  pointer-events: auto;
+  background-color: map-get($theme-colors, "bg-dark") !important;
+  background-clip: padding-box;
+  border: var(--bs-modal-border-width) solid var(--bs-modal-border-color);
+  border-radius: var(--bs-modal-border-radius);
+  outline: 0;
+}
+
