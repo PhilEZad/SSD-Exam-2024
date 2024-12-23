@@ -14,9 +14,9 @@ builder.Services.AddSwaggerGen();
 
 // Registers
 builder.Services.AddControllers();
-RegisterSecurity.RegisterSecurity(builder.Services);
 RegisterApplication.RegisterApplicationLayer(builder.Services);
 RegisterInfrastructure.RegisterInfrastructure(builder.Services);
+RegisterSecurity.RegisterSecurity(builder.Services);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();

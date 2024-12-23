@@ -9,5 +9,6 @@ public static class DependencyInjectionResolver
     {
         services.AddScoped<INoteRepository, NoteRepository>();
         services.AddScoped<IAuthRepository, AuthRepository>();
+        services.AddScoped<ISecretService, VaultService>();
     }
 }
