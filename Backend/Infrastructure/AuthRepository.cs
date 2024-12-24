@@ -7,9 +7,9 @@ public class AuthRepository : IAuthRepository
 {
     private readonly DatabaseContext _DbContext;
 
-    public AuthRepository(DatabaseContext context)
+    public AuthRepository(DatabaseContext dbContext)
     {
-        _DbContext = context;
+        _DbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         _DbContext.Database.EnsureCreated();
     }
 

@@ -9,7 +9,7 @@ public class NoteRepository : INoteRepository
 
     public NoteRepository(DatabaseContext dbContext)
     {
-        _DbContext = dbContext;
+        _DbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         _DbContext.Database.EnsureCreated();
     }
     public Note Create(Note add)

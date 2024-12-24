@@ -638,3 +638,6 @@ fabric.properties
 # End of https://www.toptal.com/developers/gitignore/api/rider,csharp,visualstudiocode,react,nextjs,angular,flutter
 /vault/data
 Backend/vault_keys.json
+.env
+vault_keys.json
+.env

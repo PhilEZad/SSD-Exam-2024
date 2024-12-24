@@ -24,11 +24,12 @@ var app = builder.Build();
 
 // Load Vault secrets
 var vault = new VaultService();
-var jwtSecret = await vault.GetSecretAsync("/data/jwt", "key");
-var hashSecret = await vault.GetSecretAsync("/data/hash", "key");
-var databaseConnection = await vault.GetSecretAsync("/data/database", "key");
+var jwtSecret = await vault.GetSecretAsync("data/jwt", "key");
+var hashSecret = await vault.GetSecretAsync("data/hash", "key");
+var databaseConnection = await vault.GetSecretAsync("data/database", "key");
 
-await vault.SealVaultAsync(); // Seal after keys have been retrieved
+// Seal after keys have been retrieved
+await vault.SealVaultAsync();
 
 // Use keys from loaded vault
 builder.Services.PostConfigure<JwtOptions>(options =>
@@ -43,7 +44,7 @@ builder.Services.PostConfigure<HashOptions>(options =>
 
 // Database Connection
 builder.Services.AddDbContext<DatabaseContext>(options => 
-    options.UseSqlServer(builder.Configuration.GetConnectionString(databaseConnection)));
+    options.UseSqlServer("Server=database,1433;Database=MyDatabase;User Id=sa;Password=YourStrong!Password;"));
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

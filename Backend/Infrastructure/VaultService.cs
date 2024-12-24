@@ -40,23 +40,23 @@ public class VaultService : ISecretService
 
     public async Task<string> GetSecretAsync(string path, string key)
     {
-        var secret = await _vaultClient.V1.Secrets.KeyValue.V1.ReadSecretAsync(path);
+        // Read the secret from the KV v1 secrets engine
+        var secret = await _vaultClient.V1.Secrets.KeyValue.V1.ReadSecretAsync(path, mountPoint: "data");
 
-        if (secret == null)
+        if (secret?.Data == null)
         {
-            throw new NoNullAllowedException("Secret is null");
+            throw new KeyNotFoundException($"Secret not found at path: {path}");
         }
 
-        secret.Data.TryGetValue("data", out var keyValueData);
-
-        if (keyValueData == null)
+        // Try to get the value associated with the specified key
+        if (secret.Data.TryGetValue(key, out var value) && value != null)
         {
-            throw new NoNullAllowedException("Key value data is null");
+            return value.ToString();
         }
-
-        var value = ((JsonElement)keyValueData).GetProperty(key).GetString();
-
-        return value ?? throw new NoNullAllowedException("Value is null");
+        else
+        {
+            throw new KeyNotFoundException($"Key '{key}' not found in secret at path: {path}");
+        }
     }
 
 
