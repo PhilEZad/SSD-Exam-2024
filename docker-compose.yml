@@ -44,7 +44,7 @@
   frontend:
     container_name: frontend
     build:
-      context: ./Frontend
+      context: ./WriteOn-Frontend
       dockerfile: Dockerfile
     depends_on:
       - backend
