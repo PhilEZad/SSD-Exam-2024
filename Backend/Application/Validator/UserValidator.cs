@@ -12,6 +12,6 @@ public class UserValidator : AbstractValidator<User>
         RuleFor(x => x.Id).GreaterThan(0).WithMessage("Id must be greater than 0");
         
         RuleFor(x => x.Username).NotEmpty().WithMessage("Username cannot be empty");
-        RuleFor(x => x.PlainPassword).NotEmpty().WithMessage("Password cannot be empty");
+        RuleFor(x => x.HashedPassword).NotEmpty().WithMessage("Password cannot be empty");
     }
 }

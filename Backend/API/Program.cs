@@ -20,13 +20,12 @@ RegisterInfrastructure.RegisterInfrastructure(builder.Services);
 RegisterSecurity.RegisterSecurity(builder.Services);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
-var app = builder.Build();
 
 // Load Vault secrets
 var vault = new VaultService();
-var jwtSecret = await vault.GetSecretAsync("data/jwt", "key");
-var hashSecret = await vault.GetSecretAsync("data/hash", "key");
-var databaseConnection = await vault.GetSecretAsync("data/database", "key");
+var jwtSecret = await vault.GetSecretAsync("/data/jwt", "key");
+var hashSecret = await vault.GetSecretAsync("/data/hash", "key");
+var databaseConnection = await vault.GetSecretAsync("/data/database", "key");
 
 // Seal after keys have been retrieved
 await vault.SealVaultAsync();
@@ -45,6 +44,9 @@ builder.Services.PostConfigure<HashOptions>(options =>
 // Database Connection
 builder.Services.AddDbContext<DatabaseContext>(options => 
     options.UseSqlServer("Server=database,1433;Database=MyDatabase;User Id=sa;Password=YourStrong!Password;"));
+
+
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

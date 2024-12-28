@@ -36,7 +36,7 @@ public class AuthService : IAuthService
             throw new ValidationException(validationResult.ToString());
         }
         
-        register.PlainPassword = _passwordHasher.Hash(register.PlainPassword, register.Username);
+        register.HashedPassword = _passwordHasher.Hash(register.HashedPassword, register.Username);
         
         return _authRepository.Create(register);
     }
@@ -52,9 +52,9 @@ public class AuthService : IAuthService
         }
         
         var responseDb = _authRepository.Read(login);
-        var hashedPassword = _passwordHasher.Hash(login.PlainPassword, login.Username);
+        var hashedPassword = _passwordHasher.Hash(login.HashedPassword, login.Username);
 
-        if (responseDb.PlainPassword != hashedPassword)
+        if (responseDb.HashedPassword != hashedPassword)
         {
             throw new AuthenticationException("Incorrect password");
         }

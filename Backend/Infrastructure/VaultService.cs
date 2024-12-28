@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Text.Json;
 using Application.Interfaces;
 using VaultSharp;
+using VaultSharp.Core;
 using VaultSharp.V1.AuthMethods.Token;
 
 namespace Infrastructure;
@@ -17,17 +18,9 @@ public class VaultService : ISecretService
     {
         // content root path
         var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        
-        Console.WriteLine($"Path: {path}");
-        
         var keyPath = Path.Combine(path, "vault_keys.json");
 
-        Console.WriteLine($"Key Path: {keyPath}");
-        
         var json = File.ReadAllText(keyPath);
-        
-        Console.WriteLine($"Json: {json}");
-        
         var keys = JsonSerializer.Deserialize<VaultKeys>(json);
 
         if (keys == null)
@@ -48,22 +41,48 @@ public class VaultService : ISecretService
 
     public async Task<string> GetSecretAsync(string path, string key)
     {
-        // Read the secret from the KV v1 secrets engine
-        var secret = await _vaultClient.V1.Secrets.KeyValue.V1.ReadSecretAsync(path);
+        try
+        {
+            Console.WriteLine($"Reading secret from path {path} with key {key}");
+            
+            var secret = await _vaultClient.V1.Secrets.KeyValue.V1.ReadSecretAsync(path);
 
-        if (secret?.Data == null)
-        {
-            throw new KeyNotFoundException($"Secret not found at path: {path}");
-        }
+            if (secret == null)
+            {
+                throw new NoNullAllowedException("Secret is null");
+            }
 
-        // Try to get the value associated with the specified key
-        if (secret.Data.TryGetValue(key, out var value) && value != null)
-        {
-            return value.ToString();
+            secret.Data.TryGetValue("data", out var keyValueData);
+
+            if (keyValueData == null)
+            {
+                throw new NoNullAllowedException("Key value data is null");
+            }
+
+            var value = ((JsonElement)keyValueData).GetProperty(key).GetString();
+
+            return value ?? throw new NoNullAllowedException("Value is null");
         }
-        else
+        catch (VaultApiException ex)
         {
-            throw new KeyNotFoundException($"Key '{key}' not found in secret at path: {path}");
+            Console.WriteLine($"Vault API error: {ex.Message}");
+            if (ex.InnerException != null)
+            {
+                Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+            }
+
+            var errors = ex.ApiErrors;
+            foreach (var error in errors)
+            {
+                Console.WriteLine($"Error: {error}");
+            }
+
+            throw;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Unexpected error: {ex.Message}");
+            throw;
         }
     }
 
