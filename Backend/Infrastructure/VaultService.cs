@@ -17,9 +17,17 @@ public class VaultService : ISecretService
     {
         // content root path
         var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        
+        Console.WriteLine($"Path: {path}");
+        
         var keyPath = Path.Combine(path, "vault_keys.json");
 
+        Console.WriteLine($"Key Path: {keyPath}");
+        
         var json = File.ReadAllText(keyPath);
+        
+        Console.WriteLine($"Json: {json}");
+        
         var keys = JsonSerializer.Deserialize<VaultKeys>(json);
 
         if (keys == null)
@@ -41,7 +49,7 @@ public class VaultService : ISecretService
     public async Task<string> GetSecretAsync(string path, string key)
     {
         // Read the secret from the KV v1 secrets engine
-        var secret = await _vaultClient.V1.Secrets.KeyValue.V1.ReadSecretAsync(path, mountPoint: "data");
+        var secret = await _vaultClient.V1.Secrets.KeyValue.V1.ReadSecretAsync(path);
 
         if (secret?.Data == null)
         {
