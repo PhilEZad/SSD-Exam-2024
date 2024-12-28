@@ -7,10 +7,47 @@
 .masonry-grid-item {
   break-inside: avoid;
   margin: 1rem;
+  width:250px;
+  height:240px;
 }
 
 .card {
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.post-it {
+  width:250px;
+  height:240px;
+  position:relative;
+  background: #ffa;
+  overflow:hidden;
+  margin:30px auto;
+  border-radius: 5px;
+  box-shadow: 0 5px 6px 5px rgba(0,0,0,0.2);
+  line-height:1.7em;
+  font-size:19px;
+  color: #08072b;
+}
+
+.post-it-title {
+  font-size: 1em;
+  height: 2rem;
+  padding-top: 0.25rem;
+  padding-left: 0.5rem;
+
+  font-weight: bold;
+  margin-bottom: 10px;
+  width: 100%;
+  background-color: rgba(0,0,0,0.25);
+}
+
+.post-it-content {
+  padding: 0.25rem 0.5rem 0.5rem;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

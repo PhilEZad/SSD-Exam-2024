@@ -7,7 +7,7 @@ import {LoginDto} from '../domain/domain';
 })
 export class AuthService {
 
-  private authState: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private authState: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   constructor() { }
 

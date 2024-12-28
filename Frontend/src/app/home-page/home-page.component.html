@@ -12,11 +12,9 @@
 
     </div>
     <div class="masonry-grid-item" *ngFor="let note of notes">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">{{ note.title }}</h5>
-          <p class="card-text">{{ note.content }}</p>
-        </div>
+      <div class="post-it">
+          <h5 class="post-it-title">{{ note.title }}</h5>
+          <p class="post-it-content">{{ note.content }}</p>
       </div>
     </div>
   </div>
