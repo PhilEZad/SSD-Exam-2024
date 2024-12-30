@@ -28,6 +28,8 @@ export interface NoteResponse {
   id: number;
   title: string;
   content: string;
+  created: Date;
+  modified: Date;
 }
 
 // Application.DTOs.Update

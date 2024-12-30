@@ -1,0 +1,59 @@
+.post-it {
+  width: 100%;
+  min-height: 500px;
+  height: 100%;
+  background: #ffa;
+
+  border-radius: 5px;
+  box-shadow: 0 5px 6px 5px rgba(0,0,0,0.2);
+  line-height:1.7em;
+  font-size:19px;
+  color: #08072b;
+  transition: all 0.3s;
+}
+
+
+.post-it-title {
+  font-size: 1.25em;
+  height: 3rem;
+  padding-top: 0.5rem;
+  padding-left: 0.5rem;
+  font-weight: bolder;
+  margin-bottom: 10px;
+  width: 100%;
+  background-color: rgba(0,0,0,0.15);
+  flex-shrink: 0;
+}
+
+.post-it-content {
+  padding: 0.25rem 0.5rem 0.5rem;
+  height: 100%;
+  width: 100%;
+}
+
+
+.save-btn {
+  background-color: rgba(0,0,0,0.15);
+}
+
+.save-btn:hover {
+  background-color: rgba(0,0,0,0.25);
+}
+
+.note-textarea {
+  flex-grow: 1;
+  resize: none; /* Removes the resize icon */
+  background-color: transparent; /* Makes the textarea transparent */
+  border: none; /* Removes the border */
+  outline: none; /* Removes the focus outline */
+  padding: 0.5rem; /* Optional: Adjust padding for better UX */
+  color: inherit; /* Ensures text color matches parent */
+}
+
+.note-textarea::placeholder {
+  color: rgba(0, 0, 0, 0.5); /* Optional: Placeholder styling */
+}
+
+.note-textarea:focus {
+  outline: none;
+}

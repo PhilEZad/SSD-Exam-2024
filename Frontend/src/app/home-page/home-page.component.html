@@ -2,7 +2,7 @@
   <h2 class="mb-4">Notes</h2>
   <div class="masonry-grid">
     <div class="masonry-grid-item">
-      <div class="post-it">
+      <div class="post-it" (click)="onNew()">
         <h5 class="post-it-title">Create new note</h5>
         <p class="post-it-content d-flex justify-content-center">
           <i class="fa-solid fa-5x fa-add mt-4 opacity-25"></i></p>
@@ -10,19 +10,28 @@
 
     </div>
     <div class="masonry-grid-item" *ngFor="let note of notes">
-      <div class="post-it">
+      <div class="post-it" (click)="onOpen(note)">
         <div class="post-it-title d-flex flex-row justify-content-between">
           <h5>{{ note.title }}</h5>
 
 
-            <button class="btn btn-transparent pt-0" >
-              <i class="fa-solid fa-ellipsis-vertical"></i>
+            <button class="btn btn-transparent pt-0"
+              (click)="deleteNote($event, note)">
+
+              <i class="fa-solid fa-close"></i>
             </button>
 
 
 
         </div>
-        <p class="post-it-content">{{ note.content }}</p>
+
+        <div class="d-flex flex-column justify-content-between h-100" style="">
+          <p class="post-it-content h-100">
+            {{ note.content }}
+          </p>
+          <small class="post-it-date small text-muted">Modified {{ note.modified | date: 'short' }}</small>
+        </div>
+
 
       </div>
     </div>

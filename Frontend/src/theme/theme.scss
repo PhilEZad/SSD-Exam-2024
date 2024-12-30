@@ -28,15 +28,16 @@ body {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: $gray-500;
+  background: map-get($theme-colors, "secondary");
   border-radius: 10px;
-  transition: 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: $gray-600;
+  background: map-get($theme-colors, "primary");
   border-radius: 10px;
+  transition: 0.3s ease-in-out;
 }
 
 
@@ -89,6 +90,26 @@ body {
 .btn-primary:active {
   background-color: darken(map-get($theme-colors, "primary"), 5%) !important;
   border-color: darken(map-get($theme-colors, "primary"), 5%) !important;
+}
+
+.input-floating {
+  @extend .input-group;
+  border: none;
+  -webkit-box-shadow: none;
+  background-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  transition: ease-in-out 0.15s;
+  outline: none;
+  position: relative;
+}
+
+.input-floating:hover {
+  @extend .input-group;
+  border: none;
+  -webkit-box-shadow: none;
+  border-radius: 0;
+  outline: none;
 }
 
 .input-underline {
@@ -404,9 +425,9 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
-  color: map-get($theme-colors, "light") !important;
+  color: map-get($theme-colors, "secondary") !important;
   pointer-events: auto;
-  background-color: map-get($theme-colors, "bg-dark") !important;
+  background-color: darken(map-get($theme-colors, "primary"), 20%) !important;
   background-clip: padding-box;
   border: var(--bs-modal-border-width) solid var(--bs-modal-border-color);
   border-radius: var(--bs-modal-border-radius);

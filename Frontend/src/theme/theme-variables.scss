@@ -39,13 +39,15 @@ $yellow: #ebbc4f;
 $green: #4ea962;
 $teal: #20c997;
 $cyan: #4fb0c0;
+$brown: #8a6d3b;
+$dark-yellow: #bfbf7f;
 
 
 $panel-color: $gray-900;
 
 $theme-colors: (
-  primary: $purple,
-  secondary: $gray-600,
+  primary: $brown,
+  secondary: $dark-yellow,
   tierary: $blue,
   success: $green,
   info: $cyan,
