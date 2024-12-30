@@ -4,19 +4,26 @@
     <div class="masonry-grid-item">
       <div class="post-it">
         <h5 class="post-it-title">Create new note</h5>
-        <p class="post-it-content"> + </p>
+        <p class="post-it-content d-flex justify-content-center">
+          <i class="fa-solid fa-5x fa-add mt-4 opacity-25"></i></p>
       </div>
 
     </div>
     <div class="masonry-grid-item" *ngFor="let note of notes">
       <div class="post-it">
-          <div class="post-it-title d-flex flex-row justify-content-between">
-            <h5>{{ note.title }}</h5>
-            <button class="">
-              <i class="fas fa-plus"></i>
+        <div class="post-it-title d-flex flex-row justify-content-between">
+          <h5>{{ note.title }}</h5>
+
+
+            <button class="btn btn-transparent pt-0" >
+              <i class="fa-solid fa-ellipsis-vertical"></i>
             </button>
-          </div>
-          <p class="post-it-content">{{ note.content }}</p>
+
+
+
+        </div>
+        <p class="post-it-content">{{ note.content }}</p>
+
       </div>
     </div>
   </div>

@@ -1,10 +1,11 @@
 import {AfterViewInit, Component} from '@angular/core';
 import {NoteResponse} from '../../domain/domain';
 import {CommonModule} from '@angular/common';
+import {NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home-page',
-  imports: [CommonModule],
+  imports: [CommonModule, NgbDropdownModule],
   templateUrl: './home-page.component.html',
   standalone: true,
   styleUrl: './home-page.component.scss'
