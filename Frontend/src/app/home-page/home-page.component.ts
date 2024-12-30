@@ -1,6 +1,5 @@
 import {AfterViewInit, Component} from '@angular/core';
 import {NoteResponse} from '../../domain/domain';
-import Masonry from 'masonry-layout';
 import {CommonModule} from '@angular/common';
 
 @Component({
@@ -18,12 +17,17 @@ export class HomePageComponent implements AfterViewInit {
     { id: 4, title: 'Note 4', content: 'Here is some additional content for note 4.' },
     { id: 5, title: 'Note 5', content: 'Note 5 has more details here.' },
     { id: 6, title: 'Note 6', content: 'Content of note 6, shorter.' },
+    { id: 6, title: 'Note 6', content: 'Content of note 6, shorter.' },
+    { id: 6, title: 'Note 6', content: 'Content of note 6, shorter.' },
+    { id: 6, title: 'Note 6', content: 'Content of note 6, shorter.' },
+    { id: 6, title: 'Note 6', content: 'Content of note 6, shorter.' },
+    { id: 6, title: 'Note 6', content: 'Content of note 6, shorter.' },
+    { id: 6, title: 'Note 6', content: 'Content of note 6, shorter.' },
+    { id: 6, title: 'Note 6', content: 'Content of note 6, shorter.' },
+
   ];
 
   ngAfterViewInit(): void {
-    new Masonry('.masonry-grid', {
-      itemSelector: '.masonry-grid-item',
-      columnWidth: 200, //'.masonry-grid-item',
-    });
+
   }
 }

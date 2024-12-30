@@ -1,20 +1,18 @@
 .masonry-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive columns */
+  gap: 8px; /* Spacing between grid items */
 }
 
 .masonry-grid-item {
-  break-inside: avoid;
-  margin: 1rem;
-  width:250px;
-  height:240px;
+  display: flex;
+  flex-direction: column;
 }
 
 .card {
   border: 1px solid #ddd;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 
@@ -41,7 +39,7 @@
   font-weight: bold;
   margin-bottom: 10px;
   width: 100%;
-  background-color: rgba(0,0,0,0.25);
+  background-color: rgba(0,0,0,0.15);
 }
 
 .post-it-content {

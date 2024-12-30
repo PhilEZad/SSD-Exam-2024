@@ -2,18 +2,20 @@
   <h2 class="mb-4">Notes</h2>
   <div class="masonry-grid">
     <div class="masonry-grid-item">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title
-          ">New note</h5>
-
-        </div>
+      <div class="post-it">
+        <h5 class="post-it-title">Create new note</h5>
+        <p class="post-it-content"> + </p>
       </div>
 
     </div>
     <div class="masonry-grid-item" *ngFor="let note of notes">
       <div class="post-it">
-          <h5 class="post-it-title">{{ note.title }}</h5>
+          <div class="post-it-title d-flex flex-row justify-content-between">
+            <h5>{{ note.title }}</h5>
+            <button class="">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
           <p class="post-it-content">{{ note.content }}</p>
       </div>
     </div>
