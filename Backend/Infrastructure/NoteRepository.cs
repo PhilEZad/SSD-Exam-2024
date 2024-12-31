@@ -27,9 +27,9 @@ public class NoteRepository : INoteRepository
         throw new NotImplementedException();
     }
 
-    public IList<Note> ReadAll()
+    public IList<Note> ReadAllById(int id)
     {
-        throw new NotImplementedException();
+        return _DbContext.NotesTable.Where(n => n.Id == id).ToList();
     }
 
     public bool Delete(int id)

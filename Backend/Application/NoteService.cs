@@ -44,6 +44,11 @@ public class NoteService : INoteService
         return _mapper.Map<Note, NoteResponse>(_noteRepository.Read(id));
     }
 
+    public List<NoteResponse> ReadByUser(int id)
+    {
+        return _mapper.Map<List<NoteResponse>>(_noteRepository.ReadAllById(id));
+    }
+
     public NoteResponse Update(NoteUpdate updateDto)
     {
         Note update = _mapper.Map<NoteUpdate, Note>(updateDto);
