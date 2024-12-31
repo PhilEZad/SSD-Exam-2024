@@ -10,7 +10,7 @@ namespace Infrastructure;
 
 public class VaultService : ISecretService
 {
-    private const string Address = "http://vault:8200";
+    private const string Address = "http://localhost:8200";
 
     private readonly IVaultClient _vaultClient;
 

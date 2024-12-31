@@ -43,7 +43,7 @@ builder.Services.PostConfigure<HashOptions>(options =>
 
 // Database Connection
 builder.Services.AddDbContext<DatabaseContext>(options => 
-    options.UseSqlServer("Server=database,1433;Database=MyDatabase;User Id=sa;Password=YourStrong!Password;"));
+    options.UseSqlServer("Server=localhost,1433;Database=MyDatabase;User Id=sa;Password=YourStrong!Password;"));
 
 
 var app = builder.Build();
