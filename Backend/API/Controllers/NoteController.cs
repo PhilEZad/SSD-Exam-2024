@@ -20,7 +20,7 @@ public class NoteController : ControllerBase
 
     [Authorize]
     [HttpPost]
-    public IActionResult AddNoteAsync([FromBody] NoteCreate note)
+    public IActionResult AddNote([FromBody] NoteCreate note)
     {
         try
         {
@@ -88,7 +88,14 @@ public class NoteController : ControllerBase
     {
         try
         {
-            return Ok(_noteService.Update(note));
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            
+            if (userId == null)
+            {
+                return Unauthorized("User is not authenticated.");
+            }
+            
+            return Ok(_noteService.Update(note, int.Parse(userId)));
         }
         catch (Exception ex)
         {

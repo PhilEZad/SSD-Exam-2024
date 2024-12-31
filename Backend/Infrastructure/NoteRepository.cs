@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure;
 
@@ -21,12 +22,36 @@ public class NoteRepository : INoteRepository
 
     public Note Update(Note update)
     {
-        throw new NotImplementedException();
+        var existingEntity = _DbContext.Find<Note>(update.Id);
+
+        if (existingEntity != null)
+        {
+            existingEntity.Title = update.Title;
+            existingEntity.Content = update.Content;
+            existingEntity.Modified = update.Modified;
+
+            _DbContext.Entry(existingEntity).State = EntityState.Modified;
+            
+            var result = _DbContext.SaveChanges();
+
+            if (result > 0)
+            {
+                return existingEntity;
+            }
+            else
+            {
+                throw new Exception("Note could not be updated");
+            }
+            
+        }
+        
+        throw new Exception("Credentials not found.");
     }
 
     public Note Read(int id)
     {
-        throw new NotImplementedException();
+        var returnEntity = _DbContext.NotesTable.First(n => n.Id == id);
+        return returnEntity;
     }
 
     public IList<Note> ReadAllById(int id)

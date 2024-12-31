@@ -59,16 +59,25 @@ public class NoteService : INoteService
         return _mapper.Map<List<NoteResponse>>(_noteRepository.ReadAllById(id));
     }
 
-    public NoteResponse Update(NoteUpdate updateDto)
+    public NoteResponse Update(NoteUpdate updateDto, int userId)
     {
-        Note update = _mapper.Map<NoteUpdate, Note>(updateDto);
+        var dbNote = _noteRepository.Read(updateDto.Id);
         
-        var validationResult = _validator.Validate(update);
+        if (userId != dbNote.OwnerId)
+        {
+            throw new UnauthorizedAccessException("You are not authorized to access this resource.");
+        }
+
+        dbNote.Title = updateDto.Title;
+        dbNote.Content = updateDto.Content;
+        dbNote.Modified = DateTime.Now;
+        
+        var validationResult = _validator.Validate(dbNote);
         if (!validationResult.IsValid)
         {
             throw new ValidationException(validationResult.ToString());
         }
-        return _mapper.Map<Note, NoteResponse>(_mapper.Map<Note, Note>(update));
+        return _mapper.Map<Note, NoteResponse>(_noteRepository.Update(dbNote));
     }
 
     public bool Delete(int id)
