@@ -24,7 +24,14 @@ public class NoteController : ControllerBase
     {
         try
         {
-            return Ok(_noteService.Create(note));
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            
+            if (userId == null)
+            {
+                return Unauthorized("User is not authenticated.");
+            }
+            
+            return Ok(_noteService.Create(note, int.Parse(userId)));
         }
         catch (Exception ex)
         {

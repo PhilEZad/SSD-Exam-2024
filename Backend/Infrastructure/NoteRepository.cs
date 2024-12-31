@@ -14,7 +14,9 @@ public class NoteRepository : INoteRepository
     }
     public Note Create(Note add)
     {
-        throw new NotImplementedException();
+        var returnEntity = _DbContext.Add(add);
+        _DbContext.SaveChanges();
+        return returnEntity.Entity;
     }
 
     public Note Update(Note update)

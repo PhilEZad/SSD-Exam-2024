@@ -21,9 +21,13 @@ public class NoteService : INoteService
         _noteRepository = noteRepository;
     }
     
-    public NoteResponse Create(NoteCreate createDto)
+    public NoteResponse Create(NoteCreate createDto, int userId)
     {
         Note create = _mapper.Map<NoteCreate, Note>(createDto);
+        
+        create.OwnerId = userId;
+        create.Created  = DateTime.Now;
+        create.Modified = DateTime.Now;
         
         var validationResult = _validator.Validate(create);
         if (!validationResult.IsValid)
