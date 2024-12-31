@@ -6,6 +6,8 @@
       dockerfile: /API/Dockerfile
     ports:
       - "5000:8080"
+    volumes:
+      - ./vault_keys.json:/app/vault_keys.json
     depends_on:
       - vault
       - database
