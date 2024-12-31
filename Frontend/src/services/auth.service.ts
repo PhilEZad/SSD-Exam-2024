@@ -4,6 +4,7 @@ import {LoginDto, RegisterDto, TokenData} from '../domain/domain';
 import {BackendService} from './backend.service';
 import {Hasher} from './security/hasher';
 import {TokenParser} from './security/token-parser';
+import {environment} from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -50,8 +51,8 @@ export class AuthService {
           return false;
         }
 
-        const issuer = decoded.iss === 'Issuer'; // Check issuer (iss) claim
-        const audience = decoded.aud === 'Audience'; // Check audience (aud) claim
+        const issuer = decoded.iss === environment.iss; // Check issuer (iss) claim
+        const audience = decoded.aud === environment.aud; // Check audience (aud) claim
 
         return issuer && audience;
       }
