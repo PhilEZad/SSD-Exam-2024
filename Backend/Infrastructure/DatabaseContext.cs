@@ -40,7 +40,7 @@ public class DatabaseContext : DbContext
         modelBuilder.Entity<Note>()
             .HasOne<User>()
             .WithMany()
-            .HasForeignKey(x => x.Id)
+            .HasForeignKey(x => x.OwnerId)
             .OnDelete(DeleteBehavior.Cascade);
     }
     
