@@ -1,4 +1,5 @@
-﻿using Application.DTOs.Create;
+﻿using System.Security.Claims;
+using Application.DTOs.Create;
 using Application.DTOs.Update;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -19,11 +20,18 @@ public class NoteController : ControllerBase
 
     [Authorize]
     [HttpPost]
-    public IActionResult AddNoteAsync([FromBody] NoteCreate note)
+    public IActionResult AddNote([FromBody] NoteCreate note)
     {
         try
         {
-            return Ok(_noteService.Create(note));
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            
+            if (userId == null)
+            {
+                return Unauthorized("User is not authenticated.");
+            }
+            
+            return Ok(_noteService.Create(note, int.Parse(userId)));
         }
         catch (Exception ex)
         {
@@ -38,7 +46,14 @@ public class NoteController : ControllerBase
     {
         try
         {
-            return Ok(_noteService.ReadById(id));
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            
+            if (userId == null)
+            {
+                return Unauthorized("User is not authenticated.");
+            }
+            
+            return Ok(_noteService.ReadById(id, int.Parse(userId)));
         }
         catch (Exception ex)
         {
@@ -47,12 +62,40 @@ public class NoteController : ControllerBase
     }
 
     [Authorize]
-    [HttpPatch]
-    public IActionResult UpdateNoteAsync([FromBody] NoteUpdate note)
+    [HttpGet]
+    public IActionResult GetAllUserNotes()
     {
         try
         {
-            return Ok(_noteService.Update(note));
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            
+            if (userId == null)
+            {
+                return Unauthorized("User is not authenticated.");
+            }
+            
+            return Ok(_noteService.ReadByUser(int.Parse(userId)));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    
+    [Authorize]
+    [HttpPatch]
+    public IActionResult UpdateNote([FromBody] NoteUpdate note)
+    {
+        try
+        {
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            
+            if (userId == null)
+            {
+                return Unauthorized("User is not authenticated.");
+            }
+            
+            return Ok(_noteService.Update(note, int.Parse(userId)));
         }
         catch (Exception ex)
         {
