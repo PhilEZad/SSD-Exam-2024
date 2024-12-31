@@ -12,28 +12,31 @@ public class NoteService : INoteService
 {
     private readonly IMapper _mapper;
     private readonly IValidator<Note> _validator;
+    private readonly IValidator<NoteCreate> _validatorCreateDto;
     private readonly INoteRepository _noteRepository;
     
-    public NoteService(IMapper mapper, IValidator<Note> validator, INoteRepository noteRepository)
+    public NoteService(IMapper mapper, IValidator<Note> validator, IValidator<NoteCreate> validateCreateDto, INoteRepository noteRepository)
     {
         _mapper = mapper;
         _validator = validator;
+        _validatorCreateDto = validateCreateDto;
         _noteRepository = noteRepository;
     }
     
     public NoteResponse Create(NoteCreate createDto, int userId)
     {
+        var validationResult = _validatorCreateDto.Validate(createDto);
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException(validationResult.ToString());
+        }
+        
+        
         Note create = _mapper.Map<NoteCreate, Note>(createDto);
         
         create.OwnerId = userId;
         create.Created  = DateTime.Now;
         create.Modified = DateTime.Now;
-        
-        var validationResult = _validator.Validate(create);
-        if (!validationResult.IsValid)
-        {
-            throw new ValidationException(validationResult.ToString());
-        }
         
         return _mapper.Map<Note, NoteResponse>(_noteRepository.Create(create));
     }
