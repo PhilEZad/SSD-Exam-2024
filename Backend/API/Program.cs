@@ -110,7 +110,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Rate Limiter
 builder.Services.AddRateLimiter(options =>
 {
-    options.AddFixedWindowLimiter("fixed" policy =>
+    options.AddFixedWindowLimiter("fixed", policy =>
     {
         policy.Window = TimeSpan.FromSeconds(10);
         policy.PermitLimit = 5;
