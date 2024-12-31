@@ -55,7 +55,7 @@ public class NoteRepository : INoteRepository
 
     public IList<Note> ReadAllById(int id)
     {
-        return _DbContext.NotesTable.Where(n => n.Id == id).ToList();
+        return _DbContext.NotesTable.Where(n => n.OwnerId == id).ToList();
     }
 
     public bool Delete(int id)
