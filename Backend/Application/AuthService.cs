@@ -12,16 +12,16 @@ namespace Application;
 public class AuthService : IAuthService
 {
     private readonly IValidator<RegisterDto> _validatorRegisterDto;
-    private readonly IValidator<User> _validator;
+    private readonly IValidator<LoginDto> _validatorLoginDto;
     private readonly IJwtProvider _jwtProvider;
     private readonly IPasswordHasher _passwordHasher;
     private readonly IAuthRepository _authRepository;
     private readonly IMapper _mapper;
 
-    public AuthService(IValidator<RegisterDto> validatorRegisterDto, IValidator<User> validator, IJwtProvider jwtProvider, IPasswordHasher passwordHasher, IAuthRepository authRepository, IMapper mapper)
+    public AuthService(IValidator<RegisterDto> validatorRegisterDto, IValidator<LoginDto> validatorLoginDto, IJwtProvider jwtProvider, IPasswordHasher passwordHasher, IAuthRepository authRepository, IMapper mapper)
     {
         _validatorRegisterDto = validatorRegisterDto;
-        _validator = validator;
+        _validatorLoginDto = validatorLoginDto;
         _jwtProvider = jwtProvider;
         _passwordHasher = passwordHasher;
         _authRepository = authRepository;
@@ -47,25 +47,23 @@ public class AuthService : IAuthService
 
     public LoginResponse Login(LoginDto loginDto)
     {
-        var login = _mapper.Map<LoginDto, User>(loginDto);
-     
-        var validationResult = _validator.Validate(login);
+        var validationResult = _validatorLoginDto.Validate(loginDto);
         if (!validationResult.IsValid)
         {
             throw new ValidationException(validationResult.ToString());
         }
         
-        var responseDb = _authRepository.Read(login);
-        var hashedPassword = _passwordHasher.Hash(login.HashedPassword, login.Username);
+        var requestDb = _mapper.Map<User>(loginDto);
+        
+        var responseDb = _authRepository.Read(requestDb);
+
+        var hashedPassword = _passwordHasher.Hash(loginDto.PlainPassword, loginDto.Username);
 
         if (responseDb.HashedPassword != hashedPassword)
         {
             throw new AuthenticationException("Incorrect password");
         }
 
-        return new LoginResponse()
-        {
-            Jwt = _jwtProvider.GenerateToken(responseDb.Id, responseDb.Username)
-        };
+        return new LoginResponse{ Jwt = _jwtProvider.GenerateToken(responseDb.Id, responseDb.Username)};
     }
 }

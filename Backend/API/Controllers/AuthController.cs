@@ -18,7 +18,7 @@ public class AuthController : ControllerBase
     }
     
     [AllowAnonymous]
-    [HttpPost]
+    [HttpPost("register")]
     public IActionResult Register([FromBody] RegisterDto registerDto)
     {
         try
@@ -32,7 +32,7 @@ public class AuthController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpGet]
+    [HttpPost("login")]
     public IActionResult Login([FromBody] LoginDto loginDto)
     {
         try

@@ -22,7 +22,13 @@ public class AuthRepository : IAuthRepository
 
     public User Read(User user)
     {
-        throw new NotImplementedException();
+        var returnUser = _DbContext.UsersTable.First(x => x.Username == user.Username);
+
+        if (user == null)
+        {
+            throw new ArgumentException("User not found");
+        }
+        return returnUser;
     }
 
     public User Update(User user)
