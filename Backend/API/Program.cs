@@ -119,6 +119,8 @@ builder.Services.AddRateLimiter(options =>
     });
 });
 
+// TODO add and configure cors
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
