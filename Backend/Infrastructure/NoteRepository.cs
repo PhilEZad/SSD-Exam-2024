@@ -11,7 +11,6 @@ public class NoteRepository : INoteRepository
     public NoteRepository(DatabaseContext dbContext)
     {
         _DbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-        _DbContext.Database.EnsureCreated();
     }
     public Note Create(Note add)
     {
@@ -61,6 +60,15 @@ public class NoteRepository : INoteRepository
 
     public bool Delete(int id)
     {
-        throw new NotImplementedException();
+        var entityToDelete = _DbContext.NotesTable.Find(id);
+        
+        if (entityToDelete == null)
+        {
+            return false;
+        }
+        
+        _DbContext.NotesTable.Remove(entityToDelete);
+        
+        return _DbContext.SaveChanges() > 0;
     }
 }

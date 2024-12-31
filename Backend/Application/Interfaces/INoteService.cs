@@ -10,5 +10,5 @@ public interface INoteService
     public NoteResponse ReadById(int id, int userId);
     public List<NoteResponse> ReadByUser(int id);
     public NoteResponse Update(NoteUpdate updateDto, int userId);
-    public bool Delete(int id);
+    public bool Delete(int id, int userId);
 }

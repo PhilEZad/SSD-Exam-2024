@@ -105,11 +105,18 @@ public class NoteController : ControllerBase
     
     [HttpDelete]
     [Route("{id}")]
-    public IActionResult GetNoteById([FromRoute] int id)
+    public IActionResult DeleteNote([FromRoute] int id)
     {
         try
         {
-            return Ok(_noteService.Delete(id));
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            
+            if (userId == null)
+            {
+                return Unauthorized("User is not authenticated.");
+            }
+            
+            return Ok(_noteService.Delete(id, int.Parse(userId)));
         }
         catch (Exception ex)
         {

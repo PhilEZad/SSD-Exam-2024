@@ -88,12 +88,17 @@ public class NoteService : INoteService
         return _mapper.Map<Note, NoteResponse>(_noteRepository.Update(dbNote));
     }
 
-    public bool Delete(int id)
+    public bool Delete(int id, int userId)
     {
         if (id <= 0)
         {
             throw new ArgumentOutOfRangeException("Id must be greater than 0");
         }
+        
+        var dbNote = _noteRepository.Read(id);
+        
+        if (userId != dbNote.OwnerId)
+            throw new UnauthorizedAccessException("You are not authorized to access this resource.");
         
         return _noteRepository.Delete(id);
     }
