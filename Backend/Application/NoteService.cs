@@ -61,6 +61,9 @@ public class NoteService : INoteService
 
     public NoteResponse Update(NoteUpdate updateDto, int userId)
     {
+        if (updateDto.Id <= 0)
+            throw new ArgumentException("Id must be greater than 0");
+        
         var dbNote = _noteRepository.Read(updateDto.Id);
         
         if (userId != dbNote.OwnerId)
@@ -71,6 +74,8 @@ public class NoteService : INoteService
         dbNote.Title = updateDto.Title;
         dbNote.Content = updateDto.Content;
         dbNote.Modified = DateTime.Now;
+        
+        Console.WriteLine("Database Note Id is: " + dbNote.Id);
         
         var validationResult = _validator.Validate(dbNote);
         if (!validationResult.IsValid)
