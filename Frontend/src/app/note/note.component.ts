@@ -17,7 +17,8 @@ export class NoteComponent implements AfterViewInit{
     title: '',
     content: '',
     created: new Date(),
-    modified: new Date()
+    modified: new Date(),
+    ownerId: -1
   }
 
 

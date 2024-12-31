@@ -4,9 +4,12 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import {HttpInterceptorFn, provideHttpClient, withInterceptors} from '@angular/common/http';
 import {provideAnimations} from '@angular/platform-browser/animations';
+import {backendUrlInterceptor} from '../services/interceptors/backend-url.interceptor';
+import {authInterceptor} from '../services/interceptors/auth.interceptor';
 
 const appInterceptors: HttpInterceptorFn[] = [
-  // Add any interceptors here
+  backendUrlInterceptor,
+  authInterceptor
 ];
 
 export const appConfig: ApplicationConfig = {
