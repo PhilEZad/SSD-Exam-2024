@@ -46,7 +46,7 @@ public class NoteController : ControllerBase
                 return Unauthorized("User is not authenticated.");
             }
             
-            return Ok(_noteService.ReadById(id, userId));
+            return Ok(_noteService.ReadById(id, int.Parse(userId)));
         }
         catch (Exception ex)
         {
