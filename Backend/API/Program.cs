@@ -1,6 +1,9 @@
+using System.Text;
 using FluentValidation;
 using Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Security;
 using RegisterApplication = Application.DependencyResolver.DependencyInjectionResolver;
 using RegisterInfrastructure = Infrastructure.DependencyResolver.DependencyInjectionResolver;
@@ -43,8 +46,38 @@ builder.Services.PostConfigure<HashOptions>(options =>
 
 // Database Connection
 builder.Services.AddDbContext<DatabaseContext>(options => 
-    options.UseSqlServer("Server=localhost,1433;Database=MyDatabase;User Id=sa;Password=YourStrong!Password;"));
+    options.UseSqlServer("Server=localhost,1433;Database=MyDatabase;User Id=sa;Password=YourStrong!Password;TrustServerCertificate=True;"));
 
+// JWT Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)), // Use the Vault-provided key
+            RequireSignedTokens = true,
+            RequireExpirationTime = true,
+            ValidateIssuerSigningKey = true
+        };
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine($"Authentication failed: {context.Exception.Message}");
+                return Task.CompletedTask;
+            },
+            OnTokenValidated = context =>
+            {
+                Console.WriteLine("Token successfully validated.");
+                return Task.CompletedTask;
+            }
+        };
+    });
 
 var app = builder.Build();
 

@@ -1,6 +1,7 @@
 ﻿using Application.DTOs.Create;
 using Application.DTOs.Update;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -16,6 +17,7 @@ public class NoteController : ControllerBase
         _noteService = noteService;
     }
 
+    [Authorize]
     [HttpPost]
     public IActionResult AddNoteAsync([FromBody] NoteCreate note)
     {
@@ -29,6 +31,7 @@ public class NoteController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpGet]
     [Route("{id}")]
     public IActionResult ReadNoteById([FromRoute] int id)
@@ -43,6 +46,7 @@ public class NoteController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPatch]
     public IActionResult UpdateNoteAsync([FromBody] NoteUpdate note)
     {

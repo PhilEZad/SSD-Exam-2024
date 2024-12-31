@@ -1,6 +1,7 @@
 ﻿using Application.DTOs.Create;
 using Application.DTOs.Request;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -16,6 +17,7 @@ public class AuthController : ControllerBase
         _authService = authService;
     }
     
+    [AllowAnonymous]
     [HttpPost]
     public IActionResult Register([FromBody] RegisterDto registerDto)
     {
@@ -29,6 +31,7 @@ public class AuthController : ControllerBase
         }
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public IActionResult Login([FromBody] LoginDto loginDto)
     {
