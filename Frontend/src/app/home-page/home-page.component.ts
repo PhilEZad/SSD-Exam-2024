@@ -4,6 +4,8 @@ import {CommonModule} from '@angular/common';
 import {NgbDropdownModule, NgbModal, NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 import {NoteComponent} from '../note/note.component';
 import {ConfirmationModalComponent} from '../confirmation-modal/confirmation-modal.component';
+import {AuthService} from '../../services/auth.service';
+import {BackendService} from '../../services/backend.service';
 
 @Component({
   selector: 'app-home-page',
@@ -14,27 +16,35 @@ import {ConfirmationModalComponent} from '../confirmation-modal/confirmation-mod
 })
 export class HomePageComponent  {
   notes: NoteResponse[] = [
-    {id: 1, title: 'Note 1', content: 'This is the content of note 1.', created: new Date(), modified: new Date()},
+    {id: 1, title: 'Note 1', content: 'This is the content of note 1.', created: new Date(), modified: new Date(),
+      ownerId: -1},
     {
       id: 2,
       title: 'Note 2',
       content: 'This is some longer content of note 2.',
       created: new Date(),
-      modified: new Date()
+      modified: new Date(),
+      ownerId: -1
     },
-    {id: 3, title: 'Note 3', content: 'Content for note 3.', created: new Date(), modified: new Date()},
+    {id: 3, title: 'Note 3', content: 'Content for note 3.', created: new Date(), modified: new Date(),
+      ownerId: -1},
     {
       id: 4,
       title: 'Note 4',
       content: 'Here is some additional content for note 4.',
       created: new Date(),
-      modified: new Date()
+      modified: new Date(),
+      ownerId: -1
     },
-    {id: 5, title: 'Note 5', content: 'Note 5 has more details here.', created: new Date(), modified: new Date()},
-    {id: 6, title: 'Note 6', content: 'Content of note 6, shorter.', created: new Date(), modified: new Date()},
+    {id: 5, title: 'Note 5', content: 'Note 5 has more details here.', created: new Date(), modified: new Date(),
+      ownerId: -1},
+    {id: 6, title: 'Note 6', content: 'Content of note 6, shorter.', created: new Date(), modified: new Date(),
+      ownerId: -1},
   ];
 
-  constructor(private modal: NgbModal) { }
+  constructor(private modal: NgbModal, private authService: AuthService, private backend: BackendService) {
+
+  }
 
 
   onOpen(note: NoteResponse) {
@@ -74,7 +84,8 @@ export class HomePageComponent  {
   }
 
   onNew() {
-    const note: NoteResponse = {id: 0, title: '', content: '', modified: new Date(), created: new Date()};
+    const note: NoteResponse = {id: 0, title: '', content: '', modified: new Date(), created: new Date(),
+      ownerId: -1};
 
     const ref = this.modal.open(NoteComponent,
       {
@@ -90,5 +101,9 @@ export class HomePageComponent  {
         this.notes.push(result);
       }
     });
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

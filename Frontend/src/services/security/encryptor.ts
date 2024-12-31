@@ -1,4 +1,4 @@
-export class KeyDeriver {
+export class Encryptor {
 
 
   constructor() {

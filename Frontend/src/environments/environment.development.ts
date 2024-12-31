@@ -1,5 +1,6 @@
 export const environment = {
   production: false,
   name: 'development',
-  apiUrl: 'http://localhost:3000'
+  apiUrl: 'http://localhost:5000',
+  salt_rounds: 18
 };

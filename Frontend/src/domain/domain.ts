@@ -30,6 +30,7 @@ export interface NoteResponse {
   content: string;
   created: Date;
   modified: Date;
+  ownerId: number;
 }
 
 // Application.DTOs.Update
@@ -41,4 +42,12 @@ export interface NoteUpdate {
 
 export interface UserUpdate {
   username: string;
+}
+
+export interface TokenData {
+  exp: Date;
+  nbf: Date;
+  id: number;
+  iss: string;
+  aud: string | string[];
 }
