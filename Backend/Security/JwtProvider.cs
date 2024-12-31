@@ -22,6 +22,7 @@ public class JwtProvider : IJwtProvider
             throw new ArgumentNullException(nameof(_secret),"Key not retrieved from Vault");
         }
         
+        // TODO: Fix issuer and audience to be correct
         _issuer = "" ?? throw new ArgumentNullException(nameof(options.Value.Issuer), "JWT issuer cannot be null");
         _audience = "" ?? throw new ArgumentNullException(nameof(options.Value.Audience), "JWT audience cannot be null");
     }
