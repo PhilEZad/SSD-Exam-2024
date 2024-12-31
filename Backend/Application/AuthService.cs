@@ -11,14 +11,16 @@ namespace Application;
 
 public class AuthService : IAuthService
 {
+    private readonly IValidator<RegisterDto> _validatorRegisterDto;
     private readonly IValidator<User> _validator;
     private readonly IJwtProvider _jwtProvider;
     private readonly IPasswordHasher _passwordHasher;
     private readonly IAuthRepository _authRepository;
     private readonly IMapper _mapper;
 
-    public AuthService(IValidator<User> validator, IJwtProvider jwtProvider, IPasswordHasher passwordHasher, IAuthRepository authRepository, IMapper mapper)
+    public AuthService(IValidator<RegisterDto> validatorRegisterDto, IValidator<User> validator, IJwtProvider jwtProvider, IPasswordHasher passwordHasher, IAuthRepository authRepository, IMapper mapper)
     {
+        _validatorRegisterDto = validatorRegisterDto;
         _validator = validator;
         _jwtProvider = jwtProvider;
         _passwordHasher = passwordHasher;
@@ -28,18 +30,17 @@ public class AuthService : IAuthService
     
     public bool Register(RegisterDto registerDto)
     {
-        var register = _mapper.Map<RegisterDto, User>(registerDto);
-
-        register.Id = 1;
-        register.HashedPassword = registerDto.PlainPassword;
-        
-        var validationResult = _validator.Validate(register);
+        var validationResult = _validatorRegisterDto.Validate(registerDto);
         if (!validationResult.IsValid)
         {
             throw new ValidationException(validationResult.ToString());
         }
         
-        register.HashedPassword = _passwordHasher.Hash(register.HashedPassword, register.Username);
+        var register = _mapper.Map<RegisterDto, User>(registerDto);
+        
+        register.HashedPassword = _passwordHasher.Hash(registerDto.PlainPassword, register.Username);
+        register.Created = DateTime.Now;
+        register.Modified = DateTime.Now;
         
         return _authRepository.Create(register);
     }
