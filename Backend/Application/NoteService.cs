@@ -34,14 +34,20 @@ public class NoteService : INoteService
         return _mapper.Map<Note, NoteResponse>(_noteRepository.Create(create));
     }
 
-    public NoteResponse ReadById(int id)
+    public NoteResponse ReadById(int id, int userId)
     {
         if (id <= 0)
         {
             throw new ArgumentOutOfRangeException("Id must be greater than 0");
         }
 
-        return _mapper.Map<Note, NoteResponse>(_noteRepository.Read(id));
+        var note = _noteRepository.Read(id);
+
+        if (note.OwnerId != userId)
+        {
+            throw new UnauthorizedAccessException("You are not authorized to access this resource.");
+        }
+        return _mapper.Map<Note, NoteResponse>(note);
     }
 
     public List<NoteResponse> ReadByUser(int id)
