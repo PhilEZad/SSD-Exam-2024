@@ -15,7 +15,9 @@ public class AuthRepository : IAuthRepository
 
     public bool Create(User user)
     {
-        throw new NotImplementedException();
+        _DbContext.UsersTable.Add(user);
+        var result = _DbContext.SaveChanges() > 0;
+        return result;
     }
 
     public User Read(User user)

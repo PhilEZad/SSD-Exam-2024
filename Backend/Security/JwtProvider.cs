@@ -22,8 +22,8 @@ public class JwtProvider : IJwtProvider
             throw new ArgumentNullException(nameof(_secret),"Key not retrieved from Vault");
         }
         
-        _issuer = options.Value.Issuer ?? throw new ArgumentNullException(nameof(options.Value.Issuer), "JWT issuer cannot be null");
-        _audience = options.Value.Audience ?? throw new ArgumentNullException(nameof(options.Value.Audience), "JWT audience cannot be null");
+        _issuer = "" ?? throw new ArgumentNullException(nameof(options.Value.Issuer), "JWT issuer cannot be null");
+        _audience = "" ?? throw new ArgumentNullException(nameof(options.Value.Audience), "JWT audience cannot be null");
     }
     
     public string GenerateToken(int id, string username, IEnumerable<Claim> additionalClaims = null)

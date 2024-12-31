@@ -29,6 +29,9 @@ public class AuthService : IAuthService
     public bool Register(RegisterDto registerDto)
     {
         var register = _mapper.Map<RegisterDto, User>(registerDto);
+
+        register.Id = 1;
+        register.HashedPassword = registerDto.PlainPassword;
         
         var validationResult = _validator.Validate(register);
         if (!validationResult.IsValid)
