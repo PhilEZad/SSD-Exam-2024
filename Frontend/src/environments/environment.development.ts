@@ -4,5 +4,6 @@ export const environment = {
   apiUrl: 'http://localhost:5000',
   salt_rounds: 18,
   iss: 'Issuer',
-  aud: 'Audience'
+  aud: 'Audience',
+  storage_key: 'jt0EggTWpD'
 };

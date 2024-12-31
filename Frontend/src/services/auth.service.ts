@@ -5,6 +5,7 @@ import {BackendService} from './backend.service';
 import {Hasher} from './security/hasher';
 import {TokenParser} from './security/token-parser';
 import {environment} from '../environments/environment';
+import {KeyMaker} from './security/key-maker';
 
 @Injectable({
   providedIn: 'root'
@@ -73,11 +74,15 @@ export class AuthService {
   }
 
   login(dto: LoginDto): Observable<boolean> {
-    return Hasher.hash(dto.plainPassword).pipe(
-      switchMap((hashedPassword) => {
+    return KeyMaker.deriveAndStore$(dto.plainPassword, dto.username).pipe(
+      // Hash the plain password after deriving and storing the key
+      switchMap(() => Hasher.hash(dto.plainPassword)),
+      tap((hashedPassword) => {
         dto.plainPassword = hashedPassword;
-        return this.backend.login(dto);
       }),
+      // Call the backend login method with the hashed password
+      switchMap(() => this.backend.login(dto)),
+      // Handle the backend response
       tap((response) => {
         if (response.jwt) {
           sessionStorage.setItem('token', response.jwt);
@@ -85,7 +90,8 @@ export class AuthService {
           this.jwtData = TokenParser.parseToken(response.jwt);
         }
       }),
-      switchMap((response) => of(response.jwt !== null))
+      // Return success based on the presence of a JWT
+      map((response) => !!response.jwt)
     );
   }
 
