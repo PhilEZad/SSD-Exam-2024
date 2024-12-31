@@ -31,7 +31,6 @@ export class AuthService {
   get isAuthenticated$() {
     return this.authState.asObservable().pipe(
       map((token) => {
-
         if (token === null || !this.jwtData) {
           return false;
         }

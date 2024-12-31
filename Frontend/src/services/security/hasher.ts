@@ -1,5 +1,5 @@
 import {environment} from '../../environments/environment';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import {fromPromise} from 'rxjs/internal/observable/innerFrom';
 import {Observable} from 'rxjs';
 

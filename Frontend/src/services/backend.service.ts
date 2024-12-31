@@ -26,6 +26,10 @@ export class BackendService {
     return this.http.get<NoteResponse>(`/note/${id}`);
   }
 
+  getAllNotes(): Observable<NoteResponse[]> {
+    return this.http.get<NoteResponse[]>('/note');
+  }
+
   updateNote(noteUpdate: any): Observable<any> {
     return this.http.patch<NoteResponse>(`/note`, noteUpdate);
   }

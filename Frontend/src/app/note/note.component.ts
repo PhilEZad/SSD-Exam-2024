@@ -3,6 +3,8 @@ import {NoteResponse} from '../../domain/domain';
 import {NgbActiveModal, NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule} from '@angular/forms';
 import {DatePipe} from '@angular/common';
+import {BackendService} from '../../services/backend.service';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-note',
@@ -14,17 +16,17 @@ import {DatePipe} from '@angular/common';
 export class NoteComponent implements AfterViewInit{
   note: NoteResponse = {
     id: 0,
-    title: '',
+    title: 'Untitled Note',
     content: '',
     created: new Date(),
     modified: new Date(),
     ownerId: -1
   }
 
+  private readonly _userId: number = -1;
 
-
-  constructor(private active: NgbActiveModal) {
-
+  constructor(private active: NgbActiveModal, private backend: BackendService, private auth: AuthService) {
+    this._userId = this.auth.getTokenData()?.id ?? -1;
   }
 
   ngAfterViewInit(): void {
@@ -34,7 +36,23 @@ export class NoteComponent implements AfterViewInit{
   }
 
   public inputNote(note: NoteResponse) {
-    this.note = {...note};
+    if (this._userId === -1) {
+      console.error('User not logged in');
+      return;
+    }
+
+    if (note.id <= 0) {
+      this.note = {...note};
+    }
+    else {
+      this.backend.getNoteById(note.id).subscribe((note) => {
+        if (note.ownerId !== this._userId) {
+          console.error('Note does not belong to user');
+          this.active.dismiss();
+        }
+        this.note = note;
+      });
+    }
   }
 
 

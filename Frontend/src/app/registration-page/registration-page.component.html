@@ -12,7 +12,7 @@
         <div
           *ngIf="registerForm.get('username')?.invalid && (registerForm.get('username')?.touched || registrationAttempted)"
           class="text-danger">
-          Username is required
+          Username is required and should be 6-28 characters long.
         </div>
       </div>
 
@@ -20,17 +20,28 @@
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
         <input type="password" id="password" class="input-underline" formControlName="password">
-        <div
-          *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.touched || registrationAttempted)"
-          class="text-danger">
-          Password is required (min 6 characters)
+        <div *ngIf="getFormControlErrors('password')?.['strongPassword'] && registerForm.get('password')?.touched
+          || registrationAttempted"
+             class="text-danger">
+          Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.
+        </div>
+        <div *ngIf="getFormControlErrors('password')?.['minlength'] && registerForm.get('password')?.touched
+          || registrationAttempted"
+             class="text-danger">
+          Password must be at least 6 characters long.
+        </div>
+        <div *ngIf="getFormControlErrors('password')?.['required'] && registerForm.get('password')?.touched
+          || registrationAttempted"
+             class="text-danger">
+          Password is required.
         </div>
       </div>
 
       <div class="mb-3">
         <label for="confirmPassword" class="form-label">Confirm Password</label>
         <input type="password" id="confirmPassword" class="input-underline" formControlName="confirmPassword">
-        <div *ngIf="registerForm.errors && (registerForm.get('confirmPassword')?.touched || registrationAttempted)"
+        <div *ngIf="getFormControlErrors('confirmPassword')?.['passwordsMismatch'] && registerForm.get('confirmPassword')?.touched
+          || registrationAttempted"
              class="text-danger">
           Passwords must match
         </div>
