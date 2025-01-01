@@ -145,6 +145,9 @@ if (app.Environment.IsDevelopment())
 // Middleware
 app.UseHttpsRedirection();
 
+if (!app.Environment.IsDevelopment())
+    app.UseHsts();
+
 app.UseCors("AllowAngularLocalhost");
 
 app.UseRateLimiter();
