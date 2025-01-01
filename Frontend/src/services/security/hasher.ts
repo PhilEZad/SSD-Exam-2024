@@ -9,4 +9,9 @@ export class Hasher {
       const rounds = environment.salt_rounds;
       return fromPromise(bcrypt.hash(password, rounds));
     }
+
+  static hashPromise(password: string): Promise<string> {
+    const rounds = environment.salt_rounds;
+    return bcrypt.hash(password, rounds);
+  }
 }

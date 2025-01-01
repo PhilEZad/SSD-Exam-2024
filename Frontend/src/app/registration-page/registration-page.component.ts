@@ -5,6 +5,7 @@ import {CommonModule} from '@angular/common';
 import {AuthService} from '../../services/auth.service';
 import {Router, RouterLink} from '@angular/router';
 import {catchError, of, tap} from 'rxjs';
+import {Hasher} from '../../services/security/hasher';
 
 @Component({
   selector: 'app-registration-page',
@@ -20,7 +21,7 @@ export class RegistrationPageComponent {
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.registerForm = this.fb.group({
-      username: ['', Validators.required, Validators.minLength(6), Validators.maxLength(28)],
+      username: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(28)]],
       password: ['', [
         Validators.required,
         Validators.minLength(6),
@@ -75,11 +76,11 @@ export class RegistrationPageComponent {
     if (this.registerForm.valid) {
       const {username, password} = this.registerForm.value;
 
-      const request: RegisterDto = {username: username, plainPassword: password};
+      const hashedPassword = await Hasher.hashPromise(password);
+      const request: RegisterDto = {username: username, plainPassword: hashedPassword};
 
       this.authService.register(request).pipe(
         tap(async (success) => {
-
           if (success) {
             this.registrationError = false;
             await this.router.navigate(['/login']);

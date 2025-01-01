@@ -51,7 +51,8 @@
     depends_on:
       - backend
     ports:
-      - "8000:80"
+      - "8001:80"
+      - "8000:443"
   
   
 volumes:

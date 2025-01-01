@@ -23,6 +23,14 @@ FROM nginx:latest AS ngi
 # NOTE: This path may change according to your project's output folder
 COPY --from=build /dist/src/app/dist/write-on-frontend /usr/share/nginx/html
 COPY /nginx.conf  /etc/nginx/conf.d/default.conf
+
+# Generate dummy SSL certificate and key
+RUN mkdir -p /etc/nginx/ssl && \
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -keyout /etc/nginx/ssl/dummy.key \
+    -out /etc/nginx/ssl/dummy.crt \
+    -subj "/CN=localhost"
+
 # Exposing a port, here it means that inside the container
 # the app will be using Port 80 while running
-EXPOSE 80
+EXPOSE 80 443

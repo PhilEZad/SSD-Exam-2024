@@ -11,11 +11,11 @@ export class BackendService {
   constructor(private http: HttpClient) {}
 
   login(dto: LoginDto): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>('auth/login', dto);
+    return this.http.post<LoginResponse>('/auth/login', dto);
   }
 
   register(dto: RegisterDto): Observable<boolean> {
-    return this.http.post<boolean>('auth/register', dto);
+    return this.http.post<boolean>('/auth/register', dto);
   }
 
   addNote(noteCreate: NoteCreate): Observable<NoteResponse> {
