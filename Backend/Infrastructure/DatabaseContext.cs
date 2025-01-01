@@ -32,8 +32,8 @@ public class DatabaseContext : DbContext
         
         // Unique
         modelBuilder.Entity<User>()
-            .Property(x => x.Username)
-            .IsUnicode();
+            .HasIndex(x => x.Username)
+            .IsUnique();
         
         // Relations
         // One-To-Many
