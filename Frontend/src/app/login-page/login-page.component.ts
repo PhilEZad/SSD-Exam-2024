@@ -36,18 +36,17 @@ export class LoginPageComponent {
     if (this.loginForm.valid) {
       const {username, password} = this.loginForm.value;
 
-      // TODO: Prehash password
 
       const request: LoginDto = {username: username, plainPassword: password}; // Create the request object
 
       // Call the backend service to authenticate
       this.authService.login(request).pipe(
-        tap(async (token) => {
-
-          // TODO: Custom Encryption Key
-
-
-          await this.router.navigate(['/home']); // Redirect to home on success
+        tap(async (success) => {
+          if (success)
+            await this.router.navigate(['/home']); // Redirect to home on success
+          else {
+            this.loginError = true;
+          }
         }),
         catchError((error) => {
           this.loginError = true; // Show error message
