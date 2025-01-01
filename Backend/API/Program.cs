@@ -1,3 +1,5 @@
+using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.RateLimiting;
 using FluentValidation;
@@ -131,6 +133,22 @@ builder.Services.AddCors(options =>
             .AllowCredentials()
     );
 });
+
+if (!builder.Environment.IsDevelopment())
+{
+    var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+    var certPath = Path.Combine(path, "aspnetapp.pfx");
+    builder.WebHost.ConfigureKestrel(options =>
+    {
+        options.ListenLocalhost(5000, listenOptions =>
+        {
+            listenOptions.UseHttps(certPath, "mysslpassword");
+        });
+    });
+}
+
+
+
 
 
 var app = builder.Build();

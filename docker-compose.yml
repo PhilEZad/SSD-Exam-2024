@@ -5,11 +5,10 @@
       context: ./Backend
       dockerfile: /API/Dockerfile
     ports:
-      - "5000:8080"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - "5000:5000"
     volumes:
       - ./vault_keys.json:/app/vault_keys.json
+      - ./certs/aspnetapp.pfx:/app/aspnetapp.pfx
     depends_on:
       - vault
       - database
