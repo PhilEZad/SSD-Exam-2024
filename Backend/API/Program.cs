@@ -119,7 +119,19 @@ builder.Services.AddRateLimiter(options =>
     });
 });
 
-// TODO add and configure cors
+// TODO: add and configure cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularLocalhost",
+        corsBuilder => corsBuilder
+            // Check if host is correct
+            .WithOrigins("http://localhost:8000")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials()
+    );
+});
+
 
 var app = builder.Build();
 
