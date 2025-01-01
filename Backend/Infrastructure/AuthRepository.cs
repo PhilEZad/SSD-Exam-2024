@@ -15,6 +15,10 @@ public class AuthRepository : IAuthRepository
 
     public bool Create(User user)
     {
+        var existingUser = _DbContext.UsersTable.Any(x => x.Username == user.Username);
+        
+        if (existingUser)
+            throw new ArgumentException("Username already exists");
         _DbContext.UsersTable.Add(user);
         var result = _DbContext.SaveChanges() > 0;
         return result;
