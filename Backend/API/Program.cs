@@ -127,10 +127,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngularLocalhost",
         corsBuilder => corsBuilder
             // Check if host is correct
-            .WithOrigins("https://localhost:8000")
             .AllowAnyMethod()
             .AllowAnyHeader()
-            .AllowCredentials()
             .AllowAnyOrigin()
     );
 });
