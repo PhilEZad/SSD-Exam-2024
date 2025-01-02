@@ -22,9 +22,9 @@ public class JwtProvider : IJwtProvider
             throw new ArgumentNullException(nameof(_secret),"Key not retrieved from Vault");
         }
         
-        // TODO: Fix issuer and audience to be correct
-        _issuer = "" ?? throw new ArgumentNullException(nameof(options.Value.Issuer), "JWT issuer cannot be null");
-        _audience = "" ?? throw new ArgumentNullException(nameof(options.Value.Audience), "JWT audience cannot be null");
+  
+        _issuer = options.Value.Issuer ?? throw new ArgumentNullException(nameof(options.Value.Issuer), "JWT issuer cannot be null");
+        _audience = options.Value.Audience ?? throw new ArgumentNullException(nameof(options.Value.Audience), "JWT audience cannot be null");
     }
     
     public string GenerateToken(int id, string username, IEnumerable<Claim> additionalClaims = null)
@@ -52,7 +52,7 @@ public class JwtProvider : IJwtProvider
             audience: _audience,
             claims: claims,
             notBefore: DateTime.UtcNow,
-            expires: DateTime.UtcNow.AddHours(8), // Token expiration time, 8 hours in this case
+            expires: DateTime.UtcNow.AddHours(1), // Token expiration time, 8 hours in this case
             signingCredentials: signingCredentials
         );
 

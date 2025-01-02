@@ -39,7 +39,7 @@ public class NoteController : ControllerBase
         }
     }
 
-    [Authorize]
+    [Authorize(Policy = "OwnerData")]
     [HttpGet]
     [Route("{id}")]
     public IActionResult ReadNoteById([FromRoute] int id)
@@ -103,6 +103,7 @@ public class NoteController : ControllerBase
         }
     }
     
+    [Authorize(Policy = "OwnerData")]
     [HttpDelete]
     [Route("{id}")]
     public IActionResult DeleteNote([FromRoute] int id)

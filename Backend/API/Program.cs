@@ -2,9 +2,11 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.RateLimiting;
+using API.Policies;
 using FluentValidation;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -45,6 +47,9 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
+
 // Registers
 builder.Services.AddControllers();
 RegisterApplication.RegisterApplicationLayer(builder.Services);
@@ -52,6 +57,8 @@ RegisterInfrastructure.RegisterInfrastructure(builder.Services);
 RegisterSecurity.RegisterSecurity(builder.Services);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
+
+
 
 // Load Vault secrets
 var vault = new VaultService();
@@ -83,12 +90,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            // TODO: Remember to change to true before delivering
-            ValidateIssuer = false,
-            ValidateAudience = false,
+            ValidateIssuer = true,
+            ValidateAudience = true,
             ValidateLifetime = true,
-            ValidIssuer = "",
-            ValidAudience = "",
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)), // Use the Vault-provided key
             RequireSignedTokens = true,
             RequireExpirationTime = true,
@@ -109,6 +115,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+
+// Authorization setup
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("OwnerData", policy =>
+    {
+        policy.Requirements.Add(new OwnerDataRequirement());
+    });
+});
+
+builder.Services.AddScoped<IAuthorizationHandler, OwnerDataPolicy>();
+builder.Services.AddHttpContextAccessor();
+
 // Rate Limiter
 builder.Services.AddRateLimiter(options =>
 {
@@ -121,33 +140,17 @@ builder.Services.AddRateLimiter(options =>
     });
 });
 
-// TODO: add and configure cors
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularLocalhost",
         corsBuilder => corsBuilder
-            // Check if host is correct
+            .WithOrigins("https://localhost:8000") // Ensure this matches the Angular app URL exactly
             .AllowAnyMethod()
             .AllowAnyHeader()
-            .AllowAnyOrigin()
+            .AllowCredentials()
     );
 });
-
-
-// {
-//     var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-//     var certPath = Path.Combine(path, "aspnetapp.pfx");
-//     builder.WebHost.ConfigureKestrel(options =>
-//     {
-//         options.ListenLocalhost(5000, listenOptions =>
-//         {
-//             listenOptions.UseHttps(certPath, "mysslpassword");
-//         });
-//     });
-// }
-
-
-
 
 
 var app = builder.Build();

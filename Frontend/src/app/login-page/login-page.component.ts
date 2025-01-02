@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {AuthService} from '../../services/auth.service';
 import {catchError, of, tap} from 'rxjs';
 import {LoginDto} from '../../domain/domain';
+import {Hasher} from '../../services/security/hasher';
 
 @Component({
   selector: 'app-login-page',
@@ -37,23 +38,26 @@ export class LoginPageComponent {
       const {username, password} = this.loginForm.value;
 
 
-      const request: LoginDto = {username: username, plainPassword: password}; // Create the request object
+      const hashedPassword = await Hasher.hashPromise(password, username);
+
+      const request: LoginDto = {username: username, plainPassword: hashedPassword}; // Create the request object
 
       // Call the backend service to authenticate
       this.authService.login(request).pipe(
-        tap(async (success) => {
-          if (success)
-            await this.router.navigate(['/home']); // Redirect to home on success
-          else {
-            this.loginError = true;
-          }
-        }),
         catchError((error) => {
           this.loginError = true; // Show error message
           console.error('Login error:', error); // Optionally log the error
-          return of(null); // Return an observable to complete the stream
+          return of(false); // Return an observable to complete the stream
         })
-      ).subscribe();
+      ).subscribe((success) => {
+        if (success) {
+          console.log('Login success:', success);
+          this.router.navigate(['home']); // Redirect to home on success
+        }
+        else {
+          this.loginError = true;
+        }
+      });
     }
   }
 }

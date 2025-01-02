@@ -61,7 +61,7 @@ public class AuthService : IAuthService
 
         if (responseDb.HashedPassword != hashedPassword)
         {
-            throw new AuthenticationException("Incorrect password");
+            throw new AuthenticationException("Incorrect username or password");
         }
 
         return new LoginResponse{ Jwt = _jwtProvider.GenerateToken(responseDb.Id, responseDb.Username)};

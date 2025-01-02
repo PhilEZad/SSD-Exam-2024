@@ -6,6 +6,7 @@ import {Hasher} from './security/hasher';
 import {TokenParser} from './security/token-parser';
 import {environment} from '../environments/environment';
 import {KeyMaker} from './security/key-maker';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class AuthService {
   private authState: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
   private jwtData: TokenData | null = null;
 
-  constructor(private backend: BackendService) {
+  constructor(private backend: BackendService, private router: Router) {
     const token = this.getToken();
     this.authState.next(token);
     this.authState.subscribe((token) => this.updateTokenData(token));
@@ -76,7 +77,7 @@ export class AuthService {
   login(dto: LoginDto): Observable<boolean> {
     return KeyMaker.deriveAndStore$(dto.plainPassword, dto.username).pipe(
       // Hash the plain password after deriving and storing the key
-      switchMap(() => Hasher.hash(dto.plainPassword)),
+      switchMap(() => Hasher.hash(dto.plainPassword, dto.username)),
       tap((hashedPassword) => {
         dto.plainPassword = hashedPassword;
       }),
@@ -99,10 +100,11 @@ export class AuthService {
     // Clear the token
     sessionStorage.removeItem('token');
     this.authState.next(null);
+    this.router.navigate(['login']);
   }
 
   register(dto: RegisterDto): Observable<boolean> {
-    return Hasher.hash(dto.plainPassword).pipe(
+    return Hasher.hash(dto.plainPassword, dto.username).pipe(
       switchMap((hashedPassword) => {
         dto.plainPassword = hashedPassword;
         return this.backend.register(dto);

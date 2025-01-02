@@ -71,16 +71,22 @@ export class RegistrationPageComponent {
   }
 
   async onSubmit(): Promise<void> {
-    this.registrationAttempted = true; // Mark as attempted
+
 
     if (this.registerForm.valid) {
       const {username, password} = this.registerForm.value;
 
-      const hashedPassword = await Hasher.hashPromise(password);
+      console.log('Registering user:', username);
+      console.log('Password:', password)
+
+      const hashedPassword = await Hasher.hashPromise(password, username);
       const request: RegisterDto = {username: username, plainPassword: hashedPassword};
+
+      console.log("Request:", request);
 
       this.authService.register(request).pipe(
         tap(async (success) => {
+          this.registrationAttempted = true; // Mark as attempted
           if (success) {
             this.registrationError = false;
             await this.router.navigate(['/login']);

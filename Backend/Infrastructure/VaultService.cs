@@ -43,8 +43,6 @@ public class VaultService : ISecretService
     {
         try
         {
-            Console.WriteLine($"Reading secret from path {path} with key {key}");
-            
             var secret = await _vaultClient.V1.Secrets.KeyValue.V1.ReadSecretAsync(path);
 
             if (secret == null)

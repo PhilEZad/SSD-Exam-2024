@@ -31,7 +31,9 @@ export class HomePageComponent {
   onOpen(note: NoteResponse) {
     const ref = this.modal.open(NoteComponent,
       {
-        size: 'xl'
+        size: 'xl',
+        backdrop: 'static',
+        keyboard: false
       }
     );
 
@@ -93,7 +95,9 @@ export class HomePageComponent {
 
     const ref = this.modal.open(NoteComponent,
       {
-        size: 'xl'
+        size: 'xl',
+        backdrop: 'static',
+        keyboard: false
       }
     );
 

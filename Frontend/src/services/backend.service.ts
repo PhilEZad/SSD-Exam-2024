@@ -76,13 +76,25 @@ export class BackendService {
             notes.map(async (note) => ({
               ...note,
               title: await Encryptor.decrypt(note.title), // Decrypt title
-              content: note.content ? note.content.substring(0, 64) + '...' : '', // Restrict content to first 64 chars
+              content: await this.decryptNoteContent(note.content), // Restrict content to first 64 chars
             }))
           )
         );
       })
     );
   }
+
+  private async decryptNoteContent(content: string): Promise<string> {
+    const decryptedContent = await Encryptor.decrypt(content);
+
+    let partialContent = decryptedContent.substring(0, 64);
+    if (decryptedContent.length > 64) {
+      partialContent += '...';
+    }
+
+    return partialContent;
+  }
+
 
   updateNote(noteUpdate: any): Observable<NoteResponse> {
     // Encrypt the title and content before sending them to the backend
