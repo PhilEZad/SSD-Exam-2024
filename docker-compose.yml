@@ -6,6 +6,10 @@
       dockerfile: /API/Dockerfile
     ports:
       - "5000:5000"
+    environment:
+      - ASPNETCORE_URLS=https://+:5000
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=mysslpassword
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=./aspnetapp.pfx
     volumes:
       - ./vault_keys.json:/app/vault_keys.json
       - ./certs/aspnetapp.pfx:/app/aspnetapp.pfx
