@@ -131,6 +131,7 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials()
+            .AllowAnyOrigin()
     );
 });
 
@@ -165,6 +166,8 @@ app.UseHttpsRedirection();
 
 if (!app.Environment.IsDevelopment())
     app.UseHsts();
+
+app.UseRouting();
 
 app.UseCors("AllowAngularLocalhost");
 
