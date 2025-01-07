@@ -14,7 +14,6 @@ Open PowerShell and run the generate-certs.ps1 script found in the root director
 
 #### STEP 3: .Env Setup
 In the root directory, create a file named .env with the following structure:
-.env
 ```
 #Database Password
 SA_PASSWORD=<Database Password>
