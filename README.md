@@ -52,7 +52,7 @@ Once that is done, create a secret engine by the name of kv—ensure it is runni
 
 Create three new secrets. Each with the name of jwt, hash and database. Ensure it follows the key-value pairing with the key name of **key**.
 
-For the database, make the value the entire connection string to the database—and make sure the password matches the password set in the .env file.
+For the database, make the value is the entirety of the connection string to the database — ensure the password matches the password set in the .env file.
 ```
 jwt:
 key - secret
